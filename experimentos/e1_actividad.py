@@ -1,6 +1,7 @@
-"""E1: réplica de la Actividad 05 con la implementación propia: las tres codificaciones y la búsqueda aleatoria en la instancia de la actividad,
-con sus parámetros, 100 corridas (las primeras 30 usan las mismas semillas que la actividad, 1000 a 1029).
-Uso (desde experimentos/): python3 e1_actividad.py"""
+"""E1: la comparación de la actividad en su instancia (15 órdenes, 6 máquinas), con 100 corridas por método.
+Las primeras 30 usan las mismas semillas que la actividad (1000 a 1029).
+Uso: python3 e1_actividad.py
+"""
 import sys
 from pathlib import Path
 

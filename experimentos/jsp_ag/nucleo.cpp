@@ -1,7 +1,5 @@
-// Núcleo en C++ del algoritmo genético para el taller de rutas variables (job-shop).
-// Decodificador de calendario activo (Giffler-Thompson), tres codificaciones (binaria, permutación con repetición,
-// llaves aleatorias), sus operadores genéticos y la búsqueda aleatoria de referencia.
-// Se compila con: g++ -O2 -std=c++17 -shared -fPIC -o libnucleo.so nucleo.cpp   (ver jsp_ag/nucleo.py)
+// Núcleo en C++ del algoritmo genético para el taller de rutas variables: decodificador de Giffler-Thompson, las tres
+// codificaciones con sus operadores y la búsqueda aleatoria. Se compila con g++ -O2 -std=c++17 -shared -fPIC (ver nucleo.py).
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
@@ -11,7 +9,7 @@
 
 namespace {
 
-// ---------------------------------------------------------------- generador aleatorio (xoshiro256**)
+// --- generador aleatorio (xoshiro256**)
 struct Rng {
     uint64_t s[4];
     static uint64_t splitmix(uint64_t& x) {
@@ -36,7 +34,7 @@ struct Rng {
     }
 };
 
-// ---------------------------------------------------------------- instancia
+// --- instancia
 struct Inst {
     int n = 0, m = 0, N = 0;
     std::vector<int> len, off, mach, pt;   // por orden: longitud y desplazamiento; por operación global: máquina y tiempo
@@ -54,7 +52,7 @@ Inst make_inst(int n, int m, const int* len, const int* mach, const int* pt) {
     return I;
 }
 
-// ---------------------------------------------------------------- decodificador (Giffler-Thompson)
+// --- decodificador (Giffler-Thompson)
 // prio[o]: prioridad de la operación global o (menor = se atiende antes; empates por el menor índice).
 struct Decoder {
     const Inst& I;
@@ -89,7 +87,7 @@ struct Decoder {
     }
 };
 
-// ---------------------------------------------------------------- individuos
+// --- individuos
 enum Enc { BIN = 0, PERM = 1, KEYS = 2, RAND = 3 };
 
 struct Ind {
@@ -130,7 +128,7 @@ void random_ind(const Inst& I, const Params& P, Rng& r, Ind& x) {
     } else { x.k.resize(I.N); for (auto& v : x.k) v = r.uni(); }
 }
 
-// ---------------------------------------------------------------- operadores de cruza
+// --- operadores de cruza
 void two_cuts(int L, Rng& r, int& a, int& b) {
     a = r.below(L); b = r.below(L); if (a > b) std::swap(a, b); if (a == b) b = std::min(L, b + 1);
 }
@@ -149,14 +147,14 @@ void cx_keys(const Params& P, const Ind& A, const Ind& B, Ind& C, Ind& D, Rng& r
     else { double al = r.uni(); for (int i = 0; i < L; ++i) { C.k[i] = al * A.k[i] + (1 - al) * B.k[i]; D.k[i] = (1 - al) * A.k[i] + al * B.k[i]; } }
 }
 
-// POX: un subconjunto de órdenes conserva sus posiciones en el padre A; el resto se completa en el orden del padre B.
+// POX: un subconjunto de órdenes conserva sus posiciones del padre A; el resto sale en el orden del padre B.
 void pox_child(const Inst& I, const std::vector<char>& inS, const std::vector<int>& A, const std::vector<int>& B, std::vector<int>& C) {
     C.assign(I.N, -1); int pb = 0;
     for (int i = 0; i < I.N; ++i) if (inS[A[i]]) C[i] = A[i];
     for (int i = 0; i < I.N; ++i) if (C[i] < 0) { while (inS[B[pb]]) ++pb; C[i] = B[pb++]; }
 }
 
-// OX generalizado: un segmento del padre A se conserva; el resto se completa con los genes del padre B a partir del segundo corte.
+// OX generalizado: se conserva un segmento del padre A; el resto se llena con los genes del padre B desde el segundo corte.
 void ox_child(const Inst& I, int a, int b, const std::vector<int>& A, const std::vector<int>& B, std::vector<int>& C) {
     C.assign(I.N, -1); std::vector<int> rem(I.len);
     for (int i = a; i < b; ++i) { C[i] = A[i]; --rem[A[i]]; }
@@ -167,7 +165,7 @@ void ox_child(const Inst& I, int a, int b, const std::vector<int>& A, const std:
     }
 }
 
-// PPX: se construye de izquierda a derecha tomando el siguiente gen de uno de los padres según una máscara; se borra del otro.
+// PPX: de izquierda a derecha, según una máscara, toma el siguiente gen de un padre y lo borra del otro.
 void ppx_child(const Inst& I, const std::vector<char>& mask, const std::vector<int>& A, const std::vector<int>& B, std::vector<int>& C) {
     C.resize(I.N);
     const std::vector<int>* P[2] = {&A, &B};
@@ -201,7 +199,7 @@ void cx_perm(const Inst& I, const Params& P, const Ind& A, const Ind& B, Ind& C,
     }
 }
 
-// ---------------------------------------------------------------- mutación
+// --- mutación
 void mutate(const Inst& I, const Params& P, Ind& x, Rng& r) {
     if (P.enc == BIN) {
         double p = std::min(1.0, P.pm_scale * 2.0 / (double)(I.N * P.bits));
@@ -214,7 +212,7 @@ void mutate(const Inst& I, const Params& P, Ind& x, Rng& r) {
     }
 }
 
-// ---------------------------------------------------------------- diversidad (distancia de Spearman entre los órdenes de prioridad)
+// --- diversidad (distancia de Spearman entre los órdenes de prioridad)
 double diversidad(const Inst& I, const std::vector<std::vector<double>>& prios, Rng& r) {
     int pop = (int)prios.size(); int N = I.N;
     std::vector<std::vector<int>> rank(pop, std::vector<int>(N));
@@ -235,17 +233,17 @@ double diversidad(const Inst& I, const std::vector<std::vector<double>>& prios, 
 
 }  // namespace
 
-// ================================================================ API en C
+// --- API en C
 extern "C" {
 
-// Decodifica un vector de prioridades. Devuelve el makespan y, si start_out != NULL, los inicios de cada operación global.
+// Decodifica un vector de prioridades: devuelve el makespan y, si start_out no es NULL, el inicio de cada operación.
 int jsp_decodificar(int n, int m, const int* len, const int* mach, const int* pt, const double* prio, int* start_out) {
     Inst I = make_inst(n, m, len, mach, pt); Decoder D(I); return D.run(prio, start_out);
 }
 
-// Ejecuta una corrida completa. enc: 0 binaria, 1 permutación con repetición, 2 llaves aleatorias, 3 búsqueda aleatoria (llaves uniformes).
-// Escribe en out_best[0..gens] el mejor makespan acumulado tras la población inicial y tras cada generación (cada una con pop-elite
-// evaluaciones nuevas) y, si out_div != NULL, la diversidad de la población. out_prio (N dobles) recibe las prioridades del mejor individuo.
+// Una corrida completa. enc: 0 binaria, 1 permutación con repetición, 2 llaves, 3 búsqueda aleatoria (llaves uniformes).
+// out_best[0..gens] recibe el mejor makespan acumulado (población inicial y cada generación), out_div la diversidad (si no es
+// NULL) y out_prio las prioridades del mejor individuo.
 int jsp_ejecutar(int n, int m, const int* len, const int* mach, const int* pt,
                  int enc, int cx, int gray, int bits, int pop, int gens, int elite, int tourn,
                  double pc, double pm_scale, double sigma, uint64_t seed,
@@ -298,7 +296,7 @@ int jsp_ejecutar(int n, int m, const int* len, const int* mach, const int* pt,
 }
 
 
-// Comprobación de los operadores de permutación: devuelve cuántos hijos (de 2*pruebas) no conservan el multiconjunto de órdenes.
+// Cuenta los hijos (de 2*pruebas) de las cruzas de permutación que no conservan el multiconjunto de órdenes.
 int jsp_verificar_cruza_permutacion(int n, int m, const int* len, const int* mach, const int* pt, int cx, int pruebas, uint64_t seed) {
     Inst I = make_inst(n, m, len, mach, pt); Rng r(seed);
     Params P{PERM, cx, 0, 2, 1, 0, 2, 8, 1.0, 1.0, 0.15};

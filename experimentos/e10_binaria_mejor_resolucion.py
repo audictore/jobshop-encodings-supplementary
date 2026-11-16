@@ -1,8 +1,7 @@
-"""E10: la binaria en su mejor resolución y con su propio ajuste. E8 mostró que la binaria mejora al bajar de 8 a 3 o 4 bits por operación, de modo que
-la comparación con la permutación debe hacerse también con la binaria en su mejor versión. Se ajustan mutación y población de la binaria con cruza
-uniforme y 3 bits (la mejor resolución de E8 con esa cruza) con la misma rejilla ampliada (mutación x0.25 a x32, poblaciones de 50 a 400), las mismas
-instancias de ajuste y semillas que E4 y E7, y se evalúa en las 25 instancias de prueba con las semillas de siempre.
-Uso (desde experimentos/): python3 e10_binaria_mejor_resolucion.py [--procesos 7]"""
+"""E10: la binaria con cruza uniforme y 3 bits (la mejor resolución de E8) con su propio ajuste: rejilla de mutación x0.25 a x32 y
+poblaciones de 50 a 400, mismas instancias de ajuste y semillas que E4, y evaluación en las 25 instancias de prueba.
+Uso: python3 e10_binaria_mejor_resolucion.py [--procesos 7]
+"""
 import argparse
 import json
 import sys

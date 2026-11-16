@@ -1,8 +1,8 @@
-"""E9: CP-SAT con el mismo tiempo que una corrida del algoritmo genético (respuesta a la auditoría del 15-nov-2026). Para cada una de las 25
-instancias se mide en un solo proceso, con el equipo en reposo, el tiempo de una corrida de la permutación con los parámetros base (mediana de
-5 corridas, tras una de calentamiento) y se resuelve la instancia con CP-SAT con ese límite de tiempo: con 1 hilo (5 semillas), con 8 hilos (3 semillas)
-y con 1 hilo y diez veces el tiempo (3 semillas). Se registra el mejor makespan hallado, o su ausencia si no encontró ninguna solución.
-Uso (desde experimentos/, sin otros procesos pesados en marcha): python3 e9_exacto_tiempo_igual.py"""
+"""E9: CP-SAT con el mismo tiempo que una corrida del algoritmo genético. Por instancia se mide el tiempo de una corrida de la
+permutación (mediana de 5, tras una de calentamiento) y se resuelve con ese límite: 1 hilo (5 semillas), 8 hilos (3) y 1 hilo con
+tiempo x10 (3). Sin otra carga en la máquina.
+Uso: python3 e9_exacto_tiempo_igual.py
+"""
 import csv
 import statistics
 import sys

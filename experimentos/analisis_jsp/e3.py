@@ -1,4 +1,4 @@
-"""Análisis de E3 (ablación de operadores): cada codificación con cada cruza; ¿pesa más la codificación o el operador?"""
+"""Análisis de E3: cada codificación con cada cruza; ¿pesa más la codificación o el operador?"""
 from __future__ import annotations
 
 import numpy as np
@@ -58,7 +58,7 @@ PAREJAS = [
     ("binaria/dos_puntos", "binaria/uniforme", "operador en binaria"),
     ("binaria/un_punto", "binaria/uniforme", "operador en binaria"),
     ("binaria/un_punto", "binaria/dos_puntos", "operador en binaria"),
-    # el mejor operador de la permutación frente a los mejores de las otras
+    # el mejor de la permutación frente a los mejores de las otras
     ("permutacion/pox", "llaves/uniforme", "mejor de cada codificación"),
     ("permutacion/pox", "binaria/uniforme", "mejor de cada codificación"),
 ]
@@ -81,7 +81,7 @@ def comparaciones(d: pd.DataFrame) -> pd.DataFrame:
 
 
 def dispersion(d: pd.DataFrame) -> dict:
-    """Rango de la brecha media entre operadores dentro de cada codificación frente a entre codificaciones con el mismo operador."""
+    """Rango de la brecha entre operadores dentro de cada codificación, frente al de las codificaciones con el mismo operador."""
     t = resumen_variantes(d)["gap_medio"]
     dentro = {}
     for cod in ("binaria", "permutacion", "llaves"):

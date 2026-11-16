@@ -1,8 +1,7 @@
-"""E7b: ampliación de la rejilla de E7. La mejor configuración de las llaves con cruza de dos puntos quedó en el borde de la rejilla (mutación x8),
-como ya ocurrió con la primera rejilla de E4. Igual que entonces, y antes de mirar ningún resultado en las instancias de prueba, se amplía la
-rejilla de esa combinación con mutación x16 y x32 (mismas poblaciones, instancias de ajuste y semillas), se vuelve a elegir la mejor configuración
-sobre toda la rejilla y se repite la evaluación de E7 en las 25 instancias de prueba con las configuraciones finales.
-Uso (desde experimentos/): python3 e7b_ampliar_rejilla.py [--procesos 7]"""
+"""E7b: la mejor configuración de las llaves con dos puntos cayó en el borde de la rejilla (mutación x8), así que se amplía con x16 y x32,
+se vuelve a elegir y se repite la evaluación en las instancias de prueba. Se hizo sin haber mirado antes esos resultados.
+Uso: python3 e7b_ampliar_rejilla.py [--procesos 7]
+"""
 import argparse
 import json
 import shutil

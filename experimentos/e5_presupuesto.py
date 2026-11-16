@@ -1,6 +1,7 @@
-"""E5: presupuesto y diversidad. Una corrida larga (300 000 evaluaciones) por semilla; la curva de mejor makespan acumulado y la diversidad
-de la población se leen después a 10 000, 30 000, 100 000 y 300 000 evaluaciones.
-Uso (desde experimentos/): python3 e5_presupuesto.py [--corridas 30] [--procesos 7]"""
+"""E5: una corrida larga (300 000 evaluaciones) por semilla; el mejor makespan y la diversidad se leen luego a 10 000, 30 000,
+100 000 y 300 000 evaluaciones.
+Uso: python3 e5_presupuesto.py [--corridas 30] [--procesos 7]
+"""
 import argparse
 import sys
 from pathlib import Path

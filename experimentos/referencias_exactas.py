@@ -1,5 +1,6 @@
-"""Referencias exactas (CP-SAT) para el conjunto de instancias. Escribe resultados/referencias_cpsat.csv.
-Uso (desde experimentos/): python3 referencias_exactas.py [--tiempo 60] [--hilos 8]"""
+"""Óptimo o mejor valor de cada instancia con CP-SAT; escribe resultados/referencias_cpsat.csv.
+Uso: python3 referencias_exactas.py [--tiempo 60] [--hilos 8] [--solo inst1 inst2 ...] [--salida archivo.csv]
+"""
 import argparse, csv, sys, time
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))

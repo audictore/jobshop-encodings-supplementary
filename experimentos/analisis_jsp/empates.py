@@ -1,6 +1,6 @@
-"""Empates de prioridad en la codificación binaria (E8). Un decodificador independiente en Python (el mismo algoritmo de Giffler y Thompson)
-cuenta, en cromosomas binarios aleatorios, en cuántos pasos la decisión entre operaciones en conflicto se resuelve por el desempate de índice
-(dos o más operaciones del conjunto de conflicto comparten la prioridad mínima). Se valida contra el decodificador de C++."""
+"""Empates de prioridad en la binaria (E8). Un decodificador en Python, independiente del de C++ y validado contra él, cuenta en cuántos
+pasos dos o más operaciones del conjunto de conflicto comparten la prioridad mínima.
+"""
 from __future__ import annotations
 
 import numpy as np

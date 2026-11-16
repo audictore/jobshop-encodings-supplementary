@@ -1,12 +1,9 @@
-"""Paleta de 15 colores, uno por orden de trabajo, para el diagrama de Gantt del horario propuesto.
+"""15 colores, uno por orden de trabajo, para el Gantt del horario. Se generan una vez y quedan fijos en estilo.ORDENES.
 
-Se genera una sola vez y sus valores quedan fijos en estilo.ORDENES (así la figura no cambia al regenerarla). El método: de una
-malla de colores OKLCH dentro de la banda de luminosidad y con el croma mínimo de la guía de visualización (L 0.45-0.77, C >= 0.10,
-dentro de sRGB) se eligen 15 por «el más lejano primero»: cada nuevo color maximiza su distancia mínima (OKLab x100) a los ya
-elegidos, medida con visión normal y simulada de protanopía y deuteranopía (modelo de Machado, Oliveira y Fernandes, 2009).
-Con 15 clases ninguna paleta cumple el objetivo de separación para daltónicos entre todas las parejas: por eso la figura
-lleva además el número de la orden dentro de cada barra, una leyenda y la tabla con las secuencias.
-Uso: python3 -m analisis_jsp.paleta  (imprime los 15 colores y sus distancias mínimas)"""
+Se eligen de una malla OKLCH el más lejano primero, midiendo la distancia con visión normal y simulando protanopía y deuteranopía
+(Machado et al., 2009). Con 15 clases no hay buena separación para daltónicos, por eso cada barra lleva el número de su orden.
+Uso: python3 -m analisis_jsp.paleta
+"""
 from __future__ import annotations
 
 import itertools

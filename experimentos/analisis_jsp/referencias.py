@@ -1,5 +1,6 @@
-"""Valor de referencia por instancia: el óptimo si CP-SAT lo demostró; si no, el mejor makespan conocido por nosotros (CP-SAT con 300 s o
-el mejor hallado por cualquier corrida de los experimentos). La brecha es (makespan - referencia) / referencia."""
+"""Valor de referencia por instancia: el óptimo si CP-SAT lo demostró y, si no, el mejor makespan conocido (CP-SAT con 300 s o el mejor de las
+corridas). Brecha = (makespan - referencia) / referencia.
+"""
 from __future__ import annotations
 
 from pathlib import Path

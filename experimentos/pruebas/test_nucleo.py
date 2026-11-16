@@ -1,5 +1,6 @@
-"""Pruebas del núcleo: el decodificador de C++ frente a una implementación independiente en Python, factibilidad de los
-calendarios, validez de los operadores y propiedades de la corrida del AG."""
+"""Pruebas del núcleo: el decodificador de C++ contra uno independiente en Python, calendarios factibles, operadores válidos y propiedades de
+una corrida del AG.
+"""
 import sys
 from pathlib import Path
 

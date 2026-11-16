@@ -1,5 +1,4 @@
-"""Análisis de las ampliaciones de la auditoría: E7 (ajuste propio de cada operador), E8 (bits por operación de la binaria, con el conteo
-de empates) y E9 (CP-SAT con el mismo tiempo que el algoritmo genético)."""
+"""Análisis de E7 a E10: ajuste por operador, bits de la binaria (con el conteo de empates) y CP-SAT con el tiempo del AG."""
 from __future__ import annotations
 
 import json
@@ -19,7 +18,7 @@ def _ref() -> pd.DataFrame:
 
 
 def _brecha(d: pd.DataFrame, m: str, op: str | None = None, bits: int | None = None) -> pd.Series:
-    """Brecha de la mediana por instancia de un método (y, si se indica, de una cruza y de un número de bits)."""
+    """Brecha de la mediana por instancia de un método (y de una cruza y un número de bits, si se indican)."""
     ref = _ref()["ref"]
     x = d[d["metodo"] == m]
     if op is not None:
@@ -39,9 +38,9 @@ def mejores_config() -> dict:
 
 
 def cruzado_propio() -> dict:
-    """Diseño 2x2 (binaria y llaves, cruza de dos puntos y uniforme) en el que cada combinación usa SU configuración ajustada: las dos de E4
-    (operador base) y las dos de E7 (el otro operador, ajustado por separado). Incluye también las brechas con los parámetros base (E3)
-    y, como referencia, la permutación con POX ajustada."""
+    """Diseño 2x2 en el que cada combinación usa su propia configuración ajustada (la de E4 para el operador base, la de E7 para el otro),
+        más la permutación con POX y la binaria de 3 bits (E10). También devuelve las brechas con parámetros base.
+    """
     b = pd.read_csv(RES / "E4b_ajustado.csv")
     c = pd.read_csv(RES / "E7b_ajustado.csv")
     base = pd.read_csv(RES / "E3_operadores.csv")
@@ -56,7 +55,7 @@ def cruzado_propio() -> dict:
              ("llaves/uniforme", "llaves/dos_puntos"), ("permutacion/pox", "binaria/dos_puntos"), ("permutacion/pox", "binaria/uniforme"),
              ("permutacion/pox", "llaves/uniforme"), ("permutacion/pox", "llaves/dos_puntos")]
     cfg10 = None
-    if (RES / "E10b_ajustado.csv").exists():                       # la binaria en su mejor resolución (3 bits) con su propio ajuste (E10)
+    if (RES / "E10b_ajustado.csv").exists():                       # la binaria de 3 bits con su ajuste (E10)
         e10 = pd.read_csv(RES / "E10b_ajustado.csv")
         e8 = pd.read_csv(RES / "E8b_bits_extra.csv")
         M["binaria3/uniforme"] = _brecha(e10, "binaria", "uniforme")
@@ -91,7 +90,7 @@ BITS = (2, 3, 4, 6, 8, 12, 16)
 
 
 def bits() -> dict:
-    """Brecha de la binaria con 2 a 16 bits por operación y cada cruza (8 bits: E3) y comparación de cada resolución con los 8 bits (Wilcoxon, Holm)."""
+    """Brecha de la binaria con 2 a 16 bits y cada cruza (8 bits: E3), y cada resolución frente a 8 bits (Wilcoxon con Holm)."""
     partes = [pd.read_csv(RES / "E8_bits.csv")]
     if (RES / "E8b_bits_extra.csv").exists():
         partes.append(pd.read_csv(RES / "E8b_bits_extra.csv"))
@@ -108,7 +107,7 @@ def bits() -> dict:
             dif = M[b] - M[8]
             filas.append({"cruza": op, "bits": b, "gap": float(M[b].mean()), "gap_8": float(M[8].mean()), "mejor": int((dif < 0).sum()),
                           "empates": int((dif == 0).sum()), "peor": int((dif > 0).sum()), "p": _wilcoxon(M[b], M[8])})
-    # la binaria con 3 y 4 bits y cruza uniforme frente a las llaves con cruza uniforme (parámetros base, E3)
+    # binaria de 3 y 4 bits (uniforme) frente a las llaves (uniforme), con parámetros base
     ll = _brecha(pd.read_csv(RES / "E3_operadores.csv"), "llaves", "uniforme")
     for b in (3, 4):
         x = _brecha(d, "binaria", "uniforme", b)
@@ -123,7 +122,7 @@ def bits() -> dict:
 
 
 def calcular_empates(muestras: int = 100) -> pd.DataFrame:
-    """Fracción de pasos con conflicto y con empate en la prioridad mínima, por instancia y bits, en cromosomas binarios aleatorios."""
+    """Fracción de pasos con conflicto y con empate en la prioridad mínima, por instancia y bits, en cromosomas aleatorios."""
     from jsp_ag.corridas import problema
     ref = _ref()
     filas = []
@@ -145,7 +144,7 @@ def tabla_empates() -> pd.DataFrame:
 
 
 def exacto_tiempo_igual() -> dict:
-    """CP-SAT con el tiempo de una corrida del algoritmo genético (E9): brecha media de las medianas por clase de tamaño y número de instancias sin solución."""
+    """E9: brecha media de CP-SAT con el tiempo de una corrida del AG, por clase de tamaño, e instancias sin solución."""
     r = _ref()
     d = pd.read_csv(RES / "E9_exacto_tiempo_igual.csv")
     d["gap"] = 100 * (d["makespan"] - d["instancia"].map(r["ref"])) / d["instancia"].map(r["ref"])
@@ -161,7 +160,7 @@ def exacto_tiempo_igual() -> dict:
         salida[cfg] = {"clase": med.groupby(clase).mean().to_dict(), "todas": float(med.mean()), "sin_solucion": sin, "n": int(med.notna().sum()),
                        "en_referencia": float(100 * ok.mean())}
     salida["t_ga"] = d.groupby("instancia")["t_ga_s"].first().to_dict()
-    # CP-SAT (1 hilo, mismo tiempo) frente al algoritmo genético, instancia por instancia
+    # CP-SAT (1 hilo, mismo tiempo) frente al AG, por instancia
     x = d[d["config"] == "1 hilo"].groupby("instancia")["gap"].median()
     both = pd.concat([x.rename("cpsat"), g_ga.rename("ga")], axis=1).dropna()
     salida["cpsat_mejor"] = int((both["cpsat"] < both["ga"]).sum())

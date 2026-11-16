@@ -1,9 +1,8 @@
-"""E12: validación externa en otras familias de instancias (respuesta a la auditoría del 15-nov-2026). Las 25 instancias de prueba y las 10 de ajuste son
-casi todas de una familia (la). Aquí se repite la comparación en 22 instancias del mismo archivo de la OR-Library que no se usaron antes: abz5 a abz9, orb01 a orb10
-(sin orb07), swv01 a swv05 e yn2 a yn4. Se corre, con las semillas 1000 a 1029: las tres codificaciones y la búsqueda aleatoria con los parámetros base (E12a) y
-las tres codificaciones con las configuraciones ajustadas en E4 (E12b), sin volver a ajustar nada. Los valores de referencia (CP-SAT, 60 s y, si no demuestra el
-óptimo, 300 s) salen de `referencias_exactas.py` (ver correr_E12.sh).
-Uso (desde experimentos/): python3 e12_otras_familias.py [--procesos 7]"""
+"""E12: la comparación en 22 instancias de otras familias del mismo archivo (abz5-9, orb01-10 sin orb07, swv01-05, yn2-4), con las semillas
+1000 a 1029: las tres codificaciones y la búsqueda aleatoria con los parámetros base (E12a) y las tres codificaciones con las
+configuraciones ajustadas en E4, sin reajustar (E12b). Las referencias salen de correr_E12.sh.
+Uso: python3 e12_otras_familias.py [--procesos 7]
+"""
 import argparse
 import json
 import sys

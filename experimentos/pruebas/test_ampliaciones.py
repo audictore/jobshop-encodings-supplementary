@@ -1,5 +1,6 @@
-"""Pruebas de integridad de las ampliaciones E7 a E10 (se omiten si faltan los resultados): tamaño y unicidad de las corridas, ninguna corrida por debajo
-de un óptimo demostrado, configuraciones elegidas dentro de la rejilla y coherencia de las comparaciones con Holm."""
+"""Pruebas de las corridas de E7 a E12 (se saltan si faltan los resultados): cantidad y unicidad de corridas, ninguna por debajo de un óptimo,
+configuraciones dentro de la rejilla y comparaciones con Holm coherentes.
+"""
 import json
 import sys
 from pathlib import Path
@@ -66,7 +67,7 @@ def test_comparaciones_de_e7_con_holm():
     for r in x["ajustado"]:
         assert r["p_holm"] >= r["p"] - 1e-12 and 0 <= r["p_holm"] <= 1
         assert r["A_mejor"] + r["empates"] + r["B_mejor"] == 25
-    # la permutación queda por debajo de todas las demás combinaciones ajustadas
+    # la permutación queda por debajo de todas las demás
     gaps = x["gap_ajustado"]
     assert all(gaps["permutacion/pox"] < v for k, v in gaps.items() if k != "permutacion/pox")
 

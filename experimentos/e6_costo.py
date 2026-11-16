@@ -1,6 +1,7 @@
-"""Costo de cómputo por corrida de cada método (29 500 evaluaciones), medido en un solo proceso, con el equipo en reposo, con
-calentamiento, 10 repeticiones por configuración intercaladas en bloques aleatorizados (el mismo protocolo del artículo anterior de la serie).
-Uso (desde experimentos/, sin otra carga en el equipo): python3 e6_costo.py"""
+"""E6: tiempo por corrida de cada método (29 500 evaluaciones) en un solo proceso, con calentamiento y 10 repeticiones
+mezcladas al azar. Hay que correrlo sin otra carga en la máquina.
+Uso: python3 e6_costo.py
+"""
 import csv
 import random
 import sys

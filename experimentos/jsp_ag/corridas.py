@@ -1,5 +1,4 @@
-"""Infraestructura de los experimentos: cada corrida es independiente y determinista (depende solo de su semilla), así que se
-reparte entre procesos. Se escribe un CSV con una fila por corrida y, si se pide, un .npz con las curvas de convergencia."""
+"""Corridas en paralelo: cada una depende solo de su semilla. Escribe un CSV con una fila por corrida y, si se pide, un .npz con las curvas."""
 from __future__ import annotations
 
 import csv

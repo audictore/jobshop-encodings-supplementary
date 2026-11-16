@@ -1,4 +1,4 @@
-"""Análisis de E5: rendimiento con el presupuesto (curvas de una corrida de 300 000 evaluaciones) y diversidad de la población."""
+"""Análisis de E5: rendimiento según el presupuesto (corridas de 300 000 evaluaciones) y diversidad de la población."""
 from __future__ import annotations
 
 import numpy as np
@@ -53,7 +53,7 @@ def friedman_por_presupuesto(t: pd.DataFrame) -> pd.DataFrame:
 
 
 def evaluaciones_hasta(curvas: dict, ref: pd.Series, umbral: float) -> pd.DataFrame:
-    """Evaluaciones hasta alcanzar una brecha <= umbral (%) en cada corrida (NaN si no se alcanza), por instancia y método."""
+    """Evaluaciones hasta llegar a una brecha <= umbral (%) en cada corrida (NaN si no llega)."""
     filas = []
     for k, c in curvas.items():
         _, inst, met, *_ = k.split("|")
@@ -64,7 +64,7 @@ def evaluaciones_hasta(curvas: dict, ref: pd.Series, umbral: float) -> pd.DataFr
 
 
 def diversidad_a(divs: dict) -> pd.DataFrame:
-    """Diversidad media (distancia de Spearman normalizada) de cada codificación a cada presupuesto, promediando corridas e instancias."""
+    """Diversidad media de cada codificación a cada presupuesto (promedio de corridas e instancias)."""
     filas = []
     for k, v in divs.items():
         _, inst, met, *_ = k.split("|")

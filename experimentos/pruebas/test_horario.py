@@ -1,6 +1,6 @@
-"""Pruebas del horario propuesto (analisis_jsp/horario.py): el comprobador de calendarios rechaza lo inválido, el solucionador
-exacto devuelve inicios consistentes y los dos calendarios guardados en resultados/E1_horario.json son válidos y tienen los
-makespan que cita el artículo."""
+"""Pruebas del horario propuesto: el comprobador de calendarios rechaza lo inválido, CP-SAT devuelve inicios consistentes y los dos calendarios
+guardados son válidos y tienen los makespan del artículo.
+"""
 import json
 import sys
 from pathlib import Path
@@ -48,7 +48,7 @@ def test_calendarios_guardados_son_validos_y_coinciden_con_el_articulo():
     assert [[tuple(x) for x in r] for r in d["rutas"]] == [list(r) for r in inst.ordenes]
     assert horario.comprobar(inst.ordenes, d["ag"]["inicios"], inst.n_maquinas) == d["ag"]["makespan"] == 599
     assert horario.comprobar(inst.ordenes, d["optimo"]["inicios"], inst.n_maquinas) == d["optimo"]["makespan"] == 597
-    # cada máquina atiende todas sus operaciones: la carga de la tabla es la de la instancia
+    # la carga de la tabla es la de la instancia
     cargas = [c for _, _, c, _ in horario.datos_tabla()]
     assert cargas == inst.carga_por_maquina()
     assert max(cargas) == json.loads(horario.INSTANCIA.read_text(encoding="utf-8"))["cota_inferior_actividad"]

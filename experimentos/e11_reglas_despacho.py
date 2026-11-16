@@ -1,8 +1,8 @@
-"""E11: reglas de despacho sencillas como piso de comparación (respuesta a la auditoría del 15-nov-2026). Cada regla es una prioridad estática por
-operación que se pasa al MISMO decodificador de Giffler y Thompson que usa el algoritmo genético, de modo que la comparación solo cambia cómo se eligen
-las prioridades: SPT (menor tiempo de proceso primero), MWKR (mayor trabajo restante de la orden primero) y MOPNR (mayor número de operaciones restantes
-primero). Es determinista: una sola evaluación por instancia y regla. Se aplican a las 25 instancias de prueba y a las de la validación externa (E12).
-Uso (desde experimentos/): python3 e11_reglas_despacho.py"""
+"""E11: reglas de despacho sencillas como piso. Cada regla es una prioridad fija por operación que se pasa al mismo decodificador
+que usa el algoritmo genético: SPT (menor tiempo de proceso), MWKR (mayor trabajo restante de la orden) y MOPNR (más operaciones
+restantes). Es determinista, una evaluación por instancia y regla, en las 25 instancias de prueba y en las de E12.
+Uso: python3 e11_reglas_despacho.py
+"""
 import csv
 import sys
 from pathlib import Path

@@ -1,4 +1,4 @@
-"""Tablas del manuscrito en LaTeX (carpeta manuscrito/tablas/), generadas a partir de los CSV para que las cifras del texto y de las tablas coincidan."""
+"""Tablas LaTeX del manuscrito (manuscrito/tablas/), generadas desde los CSV."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -117,7 +117,7 @@ def tabla_e4c() -> str:
 
 
 def generar_e4() -> None:
-    escribir("e4", tabla_e4())          # la tabla de E4c (diseño confundido) ya no va en el manuscrito: la sustituye la de E7
+    escribir("e4", tabla_e4())          # la tabla de E4c ya no va en el manuscrito; la reemplaza la de E7
 
 
 def tabla_e5() -> str:
@@ -154,7 +154,7 @@ def generar_e5_e6() -> None:
     escribir("e6", tabla_e6())
 
 
-# --- Ampliaciones de la auditoría (E7, E8, E9) -------------------------------------------------------------------------------------------
+# --- E7 a E12 ---------------------------------------------------------------------------------------------------------------------------
 def tabla_e7() -> str:
     from . import e7
     x = e7.cruzado_propio()

@@ -1,4 +1,4 @@
-"""Pruebas de la estadística del análisis y de la infraestructura de corridas."""
+"""Pruebas de la estadística y de las corridas en paralelo."""
 import sys
 from pathlib import Path
 
@@ -11,7 +11,7 @@ from analisis_jsp import estadistica as est  # noqa: E402
 
 
 def test_holm_valores_conocidos():
-    # p = (0.01, 0.04, 0.03): ordenados 0.01, 0.03, 0.04 -> 3*0.01, 2*0.03, 1*0.04 -> 0.03, 0.06, 0.06 (monótono)
+    # p = (0.01, 0.04, 0.03) -> 3*0.01, 2*0.03, 1*0.04 -> 0.03, 0.06, 0.06 (monótono)
     assert np.allclose(est.holm([0.01, 0.04, 0.03]), [0.03, 0.06, 0.06])
     assert np.allclose(est.holm([0.5, 0.5]), [1.0, 1.0])
     assert est.holm([0.2])[0] == 0.2
@@ -55,6 +55,6 @@ def test_corridas_en_paralelo_escribe_csv_y_curvas(tmp_path):
     assert len(d) == 16 and (d["evaluaciones"] <= 2000).all() and (d["evaluaciones"] > 1900).all()
     z = np.load(tmp_path / "t.npz")
     assert len(z.files) == 16 and all(np.all(np.diff(z[k]) <= 0) for k in z.files)
-    # el resultado de una corrida no depende de quién la ejecute: misma semilla, mismo makespan
+    # misma semilla, mismo makespan
     otra = correr(tareas[:2], tmp_path / "u.csv", procesos=1, quieto=True)
     assert [f["mejor"] for f in otra] == [f["mejor"] for f in filas[:2]]

@@ -1,5 +1,6 @@
-"""Descarga jobshop1.txt de la OR-Library (82 instancias) y comprueba su SHA-256. Es el único paso que usa la red.
-Uso (desde experimentos/): python3 descargar_instancias.py"""
+"""Baja jobshop1.txt de la OR-Library y comprueba su SHA-256. Es lo único que usa la red.
+Uso: python3 descargar_instancias.py
+"""
 import hashlib
 import sys
 import urllib.request

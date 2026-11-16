@@ -1,6 +1,7 @@
-"""E4c: con los parámetros ajustados de cada codificación, se cruzan los operadores entre binaria y llaves (binaria con cruza uniforme y
-llaves con cruza de dos puntos), que junto con E4b completan el diseño 2x2 con parámetros ajustados.
-Uso (desde experimentos/): python3 e4c_operador_ajustado.py"""
+"""E4c: la binaria con cruza uniforme y las llaves con cruza de dos puntos, con la configuración ajustada para el otro operador.
+Quedó mal planteado (favorece al operador con el que se ajustó) y lo reemplaza E7; se deja para que se vea.
+Uso: python3 e4c_operador_ajustado.py
+"""
 import sys
 from pathlib import Path
 

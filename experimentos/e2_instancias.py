@@ -1,5 +1,6 @@
-"""E2: las tres codificaciones y la búsqueda aleatoria en las 25 instancias, con los parámetros de la actividad (29 500 evaluaciones).
-Uso (desde experimentos/): python3 e2_instancias.py [--corridas 30] [--procesos 7]"""
+"""E2: las tres codificaciones y la búsqueda aleatoria en las 25 instancias, con los parámetros base (29 500 evaluaciones).
+Uso: python3 e2_instancias.py [--corridas 30] [--procesos 7]
+"""
 import argparse
 import sys
 from pathlib import Path

@@ -1,4 +1,4 @@
-"""Análisis de E11 (reglas de despacho como piso) y E12 (validación externa en otras familias de instancias)."""
+"""Análisis de E11 (reglas de despacho) y E12 (otras familias de instancias)."""
 from __future__ import annotations
 
 import re
@@ -22,8 +22,9 @@ def jsplib() -> pd.DataFrame:
 
 
 def referencias_externas() -> pd.DataFrame:
-    """Valor de referencia de las instancias externas: el óptimo (el que demuestra CP-SAT con 60 s o, si no, el publicado en JSPLIB) o, si no se conoce, el menor entre
-    la mejor solución de CP-SAT, la mejor cota superior publicada y cualquier corrida del algoritmo genético."""
+    """Referencia de las instancias externas: el óptimo (demostrado por CP-SAT con 60 s o publicado en JSPLIB) o, si no se conoce, el menor entre
+        CP-SAT, la mejor cota superior publicada y las corridas del algoritmo genético.
+    """
     c60 = pd.read_csv(RES / "externas_cpsat.csv").set_index("instancia")
     j = jsplib()
     ga = pd.concat([pd.read_csv(RES / "E12a_otras_familias.csv"), pd.read_csv(RES / "E12b_ajustado.csv")])

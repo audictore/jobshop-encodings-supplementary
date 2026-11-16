@@ -1,4 +1,4 @@
-"""Análisis de E2 (varias instancias): brecha respecto a la referencia, Friedman y Wilcoxon entre instancias, y pruebas por instancia."""
+"""Análisis de E2: brecha contra la referencia, Friedman y Wilcoxon entre instancias, y pruebas por instancia."""
 from __future__ import annotations
 
 import numpy as np
@@ -49,7 +49,7 @@ def pruebas_globales(d: pd.DataFrame) -> dict:
 
 
 def pruebas_por_instancia(d: pd.DataFrame) -> pd.DataFrame:
-    """Mann-Whitney y A12 con IC por instancia para las tres parejas de codificaciones; Holm entre las 25 instancias de cada pareja."""
+    """Mann-Whitney y A12 por instancia para las tres parejas, con Holm entre las 25 instancias de cada pareja."""
     filas = []
     for (a, b) in (("permutacion", "binaria"), ("permutacion", "llaves"), ("llaves", "binaria")):
         parcial = []

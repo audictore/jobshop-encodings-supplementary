@@ -1,9 +1,8 @@
-"""E7: ajuste propio de cada operador (respuesta a la auditoría del 15-nov-2026). En E4 la configuración ajustada de la binaria se eligió con
-la cruza de dos puntos y la de las llaves con la uniforme, y E4c evaluó el otro operador con esa misma configuración: cada codificación
-quedaba favorecida con el operador para el que se ajustó. Aquí se ajustan por separado las dos combinaciones que faltan
-(binaria con cruza uniforme y llaves con cruza de dos puntos) con la misma rejilla, las mismas instancias de ajuste y las mismas
-semillas que E4, y se evalúan en las 25 instancias de prueba con las semillas de siempre.
-Uso (desde experimentos/): python3 e7_ajuste_por_operador.py [--procesos 7]"""
+"""E7: ajuste propio de la binaria con cruza uniforme y de las llaves con cruza de dos puntos. En E4 solo se había ajustado con el
+operador base y E4c reutilizaba esa configuración con el otro, lo que lo favorecía. Misma rejilla, instancias de ajuste y semillas que E4;
+la mejor configuración se evalúa en las 25 instancias de prueba.
+Uso: python3 e7_ajuste_por_operador.py [--procesos 7]
+"""
 import argparse
 import json
 import sys

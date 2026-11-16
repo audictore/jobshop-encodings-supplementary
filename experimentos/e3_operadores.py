@@ -1,5 +1,6 @@
-"""E3: ablación de operadores. Cada codificación con cada operador de cruza que admite (y la binaria también con código Gray).
-Uso (desde experimentos/): python3 e3_operadores.py [--corridas 30] [--procesos 7]"""
+"""E3: cada codificación con cada cruza que admite (la binaria también con código Gray).
+Uso: python3 e3_operadores.py [--corridas 30] [--procesos 7]
+"""
 import argparse
 import sys
 from pathlib import Path

@@ -1,8 +1,5 @@
-"""Lectura de instancias de taller de rutas variables (job-shop).
-
-Formatos: el de la OR-Library (`jobshop1.txt`: varias instancias, máquinas numeradas desde 0) y el JSON de la
-instancia de la actividad (rutas con nombres de máquina). Una instancia es una lista de órdenes; cada orden, una
-lista de pares (máquina, minutos) en el orden de su ruta.
+"""Lectura de instancias de taller de rutas variables: el formato de la OR-Library (jobshop1.txt, máquinas desde 0) y el JSON de la instancia
+sintética (máquinas con nombre). Una instancia es una lista de órdenes y cada orden una lista de pares (máquina, tiempo) en el orden de su ruta.
 """
 from __future__ import annotations
 

@@ -1,11 +1,8 @@
-"""Horario propuesto para la instancia preliminar (la de la actividad): diagrama de Gantt y tabla de secuencias.
+"""Horario propuesto para la instancia preliminar: diagrama de Gantt y tabla de secuencias.
 
-`calcular()` obtiene dos calendarios y los guarda en resultados/E1_horario.json:
-  - el de la mejor de las 100 corridas de la permutación con repetición de E1 (se repite esa corrida con su semilla,
-    que es determinista, y se comprueba que da el mismo makespan que el CSV de E1);
-  - el óptimo que demuestra CP-SAT.
-Los dos pasan por `comprobar`, una verificación independiente del decodificador y del solucionador (precedencias de cada
-orden, no solapamiento en cada máquina y makespan). `fig_horario` y `tabla_horario` solo leen ese JSON."""
+`calcular()` guarda en resultados/E1_horario.json el calendario de la mejor corrida de la permutación en E1 (repite esa corrida con su semilla y
+comprueba que da el mismo makespan que el CSV) y un calendario óptimo de CP-SAT; los dos pasan por `comprobar`. La figura y la tabla solo leen ese JSON.
+"""
 from __future__ import annotations
 
 import json
@@ -27,9 +24,9 @@ def _instancia():
 
 
 def comprobar(ordenes, inicios, n_maquinas: int) -> int:
-    """Verifica un calendario (inicios[j][k] = minuto de inicio de la operación k de la orden j) y devuelve su makespan.
-    Lanza AssertionError si alguna orden empieza una operación antes de terminar la anterior o si dos operaciones se solapan
-    en una máquina."""
+    """Verifica un calendario (inicios[j][k] es el inicio de la operación k de la orden j) y devuelve su makespan.
+        Falla con AssertionError si una orden rompe su ruta o si dos operaciones se solapan en una máquina.
+    """
     por_maquina = [[] for _ in range(n_maquinas)]
     fin = 0
     for j, ruta in enumerate(ordenes):
@@ -128,7 +125,7 @@ def fig_horario(ruta) -> bool:
         E.letra(ax, titulo)
     ejes[1].set_xlabel("Tiempo desde el inicio de la semana (min)")
     asas = [E.plt.Rectangle((0, 0), 1, 1, facecolor=E.ORDENES[j], edgecolor="none") for j in range(len(d["ordenes"]))]
-    orden = [i for c in range(7) for i in (c, c + 8)] + [7]        # matplotlib llena por columnas: así la leyenda se lee por filas, J1 a J8 y J9 a J15
+    orden = [i for c in range(7) for i in (c, c + 8)] + [7]        # matplotlib llena por columnas; así la leyenda se lee por filas
     fig.legend([asas[i] for i in orden], [f"J{i + 1}" for i in orden], loc="outside lower center", ncol=8, fontsize=6.5, handlelength=1.0,
                handleheight=0.9, columnspacing=0.9, handletextpad=0.4, title="Orden de trabajo", title_fontsize=6.5)
     E.guardar(fig, ruta)
@@ -163,6 +160,6 @@ if __name__ == "__main__":
     import sys
     sys.path.insert(0, str(BASE))
     if "--recalcular" in sys.argv or not JSON.exists():
-        calcular()      # el óptimo de CP-SAT no es único y, con 8 hilos, el calendario que devuelve cambia entre corridas (su makespan, no)
+        calcular()      # con 8 hilos CP-SAT devuelve calendarios distintos cada vez (mismo makespan)
     fig_horario(BASE.parent / "manuscrito" / "figuras" / "fig_horario.png")
     generar()

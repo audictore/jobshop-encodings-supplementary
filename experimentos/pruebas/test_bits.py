@@ -1,5 +1,6 @@
-"""Pruebas de las ampliaciones E7-E9: el número de bits por operación de la binaria es un parámetro (con 8 bits se reproducen los resultados
-anteriores), el conteo de empates usa un decodificador que coincide con el de C++ y el cálculo de las brechas de E7/E9 es coherente."""
+"""Pruebas del parámetro `bits` de la binaria (con 8 se reproducen los resultados anteriores) y del conteo de empates, cuyo decodificador debe
+coincidir con el de C++.
+"""
 import sys
 from pathlib import Path
 
@@ -22,7 +23,7 @@ def la21():
 
 
 def test_ocho_bits_reproduce_los_resultados_anteriores(la21):
-    # valor de la binaria (cruza de dos puntos, parámetros base) en la21 con la semilla 1000, obtenido antes de añadir el parámetro `bits`
+    # valor de la binaria en la21 (semilla 1000) obtenido antes de añadir `bits`
     assert la21.ejecutar("binaria", 1000, Config())["mejor"] == 1203
     assert la21.ejecutar("binaria", 1000, Config(bits=8))["mejor"] == 1203
 

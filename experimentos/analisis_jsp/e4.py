@@ -1,4 +1,4 @@
-"""Análisis de E4: sensibilidad a la mutación y a la población (instancias de ajuste) y comparación con las configuraciones ajustadas."""
+"""Análisis de E4: sensibilidad a la mutación y a la población, y configuraciones ajustadas."""
 from __future__ import annotations
 
 import json
@@ -12,7 +12,7 @@ from .referencias import RES, construir
 
 
 def rejilla() -> pd.DataFrame:
-    """Makespan relativo medio (frente a la mejor configuración de cada instancia) por codificación, escala de mutación y población."""
+    """Makespan relativo medio a la mejor configuración de cada instancia, por codificación, mutación y población."""
     d = pd.read_csv(RES / "E4a_rejilla.csv")
     m = d.groupby(["metodo", "instancia", "escala", "pop"])["mejor"].mean().reset_index()
     m["rel"] = 100.0 * (m["mejor"] / m.groupby(["metodo", "instancia"])["mejor"].transform("min") - 1)
@@ -52,8 +52,9 @@ def ranking_ajustado() -> dict:
 
 
 def cruzado_ajustado() -> dict:
-    """Diseño 2x2 (binaria y llaves, cruza de dos puntos y uniforme) con los parámetros ajustados de cada una, más la permutación con POX.
-    Devuelve las brechas medias de las medianas por instancia y las comparaciones con Holm."""
+    """Diseño 2x2 (binaria y llaves, dos puntos y uniforme) con la configuración ajustada de cada codificación, más la permutación con POX.
+        Devuelve las brechas medias y las comparaciones con Holm.
+    """
     from scipy import stats
 
     ref = construir(guardar=False).set_index("instancia")["ref"]

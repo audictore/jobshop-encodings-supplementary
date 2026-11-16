@@ -1,13 +1,7 @@
-"""Estilo común de las figuras del artículo.
+"""Estilo de las figuras del artículo.
 
-Paleta categórica en orden fijo (azul, naranja, aqua, amarillo, magenta) validada con el validador de
-la guía de visualización sobre fondo blanco: los tres primeros pasan con todas las parejas
-(ΔE CVD ≥ 9.2) y los cinco con parejas adyacentes (ΔE CVD ≥ 9.1). El aqua queda en 2.8:1 de
-contraste sobre blanco, de modo que toda figura lleva leyenda, marcadores distintos y su tabla
-equivalente (relieve obligado por el validador). Ningún texto usa el color de la serie.
-
-Reglas aplicadas: sin doble eje; un solo eje y por panel; rejilla de línea fina y continua; líneas
-de ≈2 px; marcadores ≥ 8 px con anillo del color del fondo; sin bordes en las barras.
+Cinco colores en orden fijo (azul, naranja, aqua, amarillo, magenta). El aqua tiene poco contraste sobre blanco, así que las figuras
+levan leyenda y marcadores distintos. Un solo eje y por panel, rejilla fina, líneas de unos 2 px y barras sin borde.
 """
 from __future__ import annotations
 
@@ -26,13 +20,12 @@ EJE = "#c3c2b7"
 ORDEN = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"]   # azul, naranja, aqua, amarillo, magenta
 MARCAS = ["o", "s", "^", "D", "v"]
 RAMPA_AZUL = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"]
-# El color sigue a la entidad (no al orden en que aparece): el mismo modo, el mismo color en toda figura.
+# El color sigue a la entidad, no al orden en que aparece.
 COLOR_MODO = {"secuencial": ORDEN[0], "pool_completo": ORDEN[1], "pool_persistente": ORDEN[2]}
 MARCA_MODO = {"secuencial": "o", "pool_completo": "s", "pool_persistente": "^"}
 NOMBRE_MODO = {"secuencial": "Secuencial", "pool_completo": "Pool completo", "pool_persistente": "Pool persistente"}
-# Un color por orden de trabajo (J1..J15) en el Gantt del horario propuesto, generados por analisis_jsp/paleta.py. Con 15 clases no se
-# cumple el objetivo de la guía (separación ≥ 15 con visión normal entre todas las parejas; aquí el mínimo es 7.6): la identidad
-# no depende solo del color, porque cada barra lleva su número, hay leyenda y la Tabla de secuencias da el orden en cada máquina.
+# Un color por orden de trabajo (J1..J15) en el Gantt, generados con analisis_jsp/paleta.py. Con 15 colores algunos quedan parecidos
+# (separación mínima 7.6), así que cada barra lleva además su número.
 ORDENES = ["#1879d2", "#63d32d", "#7a4800", "#27c8e9", "#399678", "#7b3577", "#469efa", "#4bc18e",
            "#cd5e11", "#5635b6", "#3a9dbb", "#93537c", "#9d5448", "#b3994d", "#823b4d"]
 COL = 3.4      # ancho de una columna (pulgadas)

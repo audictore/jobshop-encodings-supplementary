@@ -1,5 +1,6 @@
-"""Figuras del artículo (una columna de 3.4 pulgadas o dos columnas de 7.1, 300 dpi). El color sigue a la entidad en todas:
-binaria = azul, permutación con repetición = naranja, llaves aleatorias = aqua, búsqueda aleatoria = gris."""
+"""Figuras del artículo (3.4 pulgadas de una columna o 7.1 de dos, 300 dpi). Cada método conserva su color: binaria azul, permutación naranja,
+llaves aqua y búsqueda aleatoria gris.
+"""
 from __future__ import annotations
 
 import numpy as np

@@ -15,7 +15,7 @@ _FUENTE = _AQUI / "nucleo.cpp"
 _BIB = _AQUI / "build" / "libnucleo.so"
 
 ENC = {"binaria": 0, "permutacion": 1, "llaves": 2, "aleatoria": 3}
-# operador de cruza por codificación (el entero que entiende el núcleo)
+# entero de cada cruza en el núcleo
 CRUZA = {
     "binaria": {"dos_puntos": 0, "un_punto": 1, "uniforme": 2},
     "permutacion": {"pox": 0, "ox": 1, "ppx": 2},
@@ -58,10 +58,10 @@ class Config:
     elite: int = 2
     torneo: int = 3
     pc: float = 0.9
-    escala_mutacion: float = 1.0      # multiplica la tasa base de cada codificación (2/L por bit o por llave; 0.30 por individuo en permutación)
+    escala_mutacion: float = 1.0      # multiplica la tasa base (2/L por bit o llave; 0.30 por individuo en la permutación)
     sigma: float = 0.15
     gray: bool = False
-    bits: int = 8                     # bits por operación en la binaria (8 en todos los experimentos salvo E8)
+    bits: int = 8                     # bits por operación en la binaria (8, salvo en E8 y E10)
     cruza: str | None = None          # None = la de la actividad para esa codificación
 
     @property
