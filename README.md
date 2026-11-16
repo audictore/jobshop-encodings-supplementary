@@ -1,77 +1,64 @@
-# Material suplementario — ¿Importa la codificación del cromosoma? Evaluación experimental en el taller de rutas variables
+# Código y datos de «¿Importa la codificación del cromosoma?»
 
-Código, datos de las mediciones y guiones de análisis del manuscrito enviado a revisión por pares doble ciego. Está pensado para que las personas
-revisoras puedan **leer el código, ver cada corrida y repetir cualquier experimento**. No contiene nombres, afiliaciones ni datos de autoría.
+Material del artículo «¿Importa la codificación del cromosoma? Evaluación experimental en el taller de rutas variables», que está en revisión. Aquí está el código de los experimentos, el resultado de cada corrida y los guiones con los que se arman las tablas y las figuras del texto, para que se pueda ver cómo se hizo todo y repetirlo.
 
-## Qué hay
-
-| Ruta | Contenido |
-|---|---|
-| `experimentos/jsp_ag/` | Núcleo en C++17 (`nucleo.cpp`: decodificador de Giffler y Thompson, tres codificaciones, sus operadores y la búsqueda aleatoria), envoltura en Python (`nucleo.py`), lector de instancias, CP-SAT (`exacto.py`) y corridas en paralelo (`corridas.py`) |
-| `experimentos/analisis_jsp/` | Referencias exactas, estadística (Friedman, Wilcoxon, Holm, Mann–Whitney, A12), figuras y tablas LaTeX del manuscrito |
-| `experimentos/e1_…py` a `e12_…py` | Un guion por experimento (los de las secciones de Resultados) |
-| `experimentos/pruebas/` | 51 pruebas automáticas |
-| `experimentos/resultados/` | **Una fila por corrida** de cada experimento (CSV), las curvas de convergencia (NPZ) y las configuraciones elegidas (JSON) |
-| `experimentos/instancias/` | `actividad05.json` (la instancia sintética de 15 órdenes y 6 máquinas, semilla 2026), la procedencia de las de la OR-Library y `jsplib_mejores_valores.csv` (óptimos y cotas publicados, con su LEEME) |
-
-## Cómo repetirlo
+## Para correrlo
 
 ```bash
 cd experimentos
-pip install -r requirements.txt        # numpy, scipy, pandas, matplotlib, ortools, pytest; además g++ (C++17)
-python3 descargar_instancias.py        # única descarga: jobshop1.txt de la OR-Library, con su SHA-256
-python3 -m pytest -q -p no:cacheprovider pruebas
+pip install -r requirements.txt    # además hace falta g++ (C++17)
+python3 descargar_instancias.py    # baja jobshop1.txt de la OR-Library y comprueba su SHA-256
+python3 -m pytest -q pruebas
 ```
 
-El núcleo se compila solo la primera vez. Sin `jobshop1.txt`, las pruebas que lo necesitan se omiten. Con los resultados de esta carpeta presentes, las 51 pruebas se
-ejecutan (≈ 8 s); sin ellos, los que necesitan resultados se omiten.
+El núcleo en C++ se compila solo la primera vez. Sin `jobshop1.txt` algunas pruebas se saltan. Con los resultados que vienen en `experimentos/resultados/` pasan las 51 pruebas en unos diez segundos.
 
-Para volver a calcular las tablas y las figuras del manuscrito a partir de los CSV: `analisis_jsp.latex.generar_e1_e3()`, `generar_e4()`, `generar_e5_e6()` y
-`generar_e7_e9()`; `analisis_jsp.figuras.fig_e2`, `fig_e3`, `fig_e4` y `fig_e5`; `analisis_jsp.horario` (diagrama de Gantt y tabla del horario propuesto).
+Las tablas y figuras del artículo se rehacen a partir de los CSV con las funciones de `analisis_jsp/latex.py` (`generar_e1_e3`, `generar_e4`, `generar_e5_e6`, `generar_e7_e9`, `generar_e12`) y de `analisis_jsp/figuras.py`. El horario propuesto sale de `python3 -m analisis_jsp.horario`.
 
-## Correspondencia con el manuscrito
+## Qué hay en cada carpeta
 
-| Experimento | Qué responde | Guion | Resultados |
-|---|---|---|---|
-| Referencias exactas | Óptimo o mejor valor conocido de cada instancia (CP-SAT) | `referencias_exactas.py` | `referencias.csv`, `referencias_cpsat.csv`, `referencias_cpsat_300s.csv` |
-| E1 | Réplica en la instancia preliminar (100 corridas) y horario propuesto | `e1_actividad.py`, `analisis_jsp/horario.py` | `E1_actividad.csv`, `E1_curvas.npz`, `E1_horario.json` |
-| E2 | Las tres codificaciones y la búsqueda aleatoria en 25 instancias | `e2_instancias.py` | `E2_instancias.csv`, `E2_curvas.npz` |
-| E3 | Ablación de operadores y código Gray (12 variantes) | `e3_operadores.py` | `E3_operadores.csv` |
-| E4 | Rejilla de mutación × población (instancias de ajuste) y configuración ajustada | `e4_parametros.py` | `E4a_rejilla.csv`, `E4b_ajustado.csv`, `E4_mejor_config.json`, `primera_rejilla/` (rejilla inicial, ampliada después) |
-| E4c | Primer análisis del cruce operador × ajuste, **con un diseño confundido** (se conserva por transparencia; lo sustituye E7) | `e4c_operador_ajustado.py` | `E4c_operador_ajustado.csv` |
-| E5 | Presupuesto de hasta 300 000 evaluaciones y diversidad | `e5_presupuesto.py` | `E5_presupuesto.csv`, `E5_curvas.npz` |
-| E6 | Costo por corrida en un solo proceso | `e6_costo.py` | `E6_costo.csv` |
-| E7 | Ajuste propio de cada combinación de codificación y operador | `e7_ajuste_por_operador.py`, `e7b_ampliar_rejilla.py` | `E7a_rejilla.csv`, `E7a_ampliacion.csv`, `E7b_ajustado.csv`, `E7_mejor_config.json` (y las `…_rejilla_inicial` previas a la ampliación) |
-| E8 | Bits por operación de la binaria y empates de prioridad | `e8_bits.py`, `analisis_jsp/empates.py` | `E8_bits.csv`, `E8b_bits_extra.csv`, `E8_empates.csv` |
-| E9 | CP-SAT con el mismo tiempo que una corrida del algoritmo genético | `e9_exacto_tiempo_igual.py` | `E9_exacto_tiempo_igual.csv` |
-| E10 | La binaria en su mejor resolución, con su propio ajuste | `e10_binaria_mejor_resolucion.py` | `E10a_rejilla.csv`, `E10b_ajustado.csv`, `E10_mejor_config.json` |
-| E11 | Reglas de despacho sencillas (SPT, MWKR, MOPNR) como piso, en el mismo decodificador | `e11_reglas_despacho.py` | `E11_reglas_despacho.csv` |
-| E12 | Validación en 22 instancias de otras familias (abz, orb, swv, yn) con parámetros base y con las configuraciones de E4 | `correr_E12.sh`, `e12_otras_familias.py` | `externas_cpsat.csv`, `E12a_otras_familias.csv`, `E12b_ajustado.csv` |
+- `experimentos/jsp_ag/`: el núcleo en C++ (decodificador de Giffler y Thompson, las tres codificaciones y sus operadores, búsqueda aleatoria) con su envoltura en Python, el lector de instancias, el modelo de CP-SAT y el reparto de corridas en procesos.
+- `experimentos/analisis_jsp/`: referencias, estadística (Friedman, Wilcoxon, Holm, Mann-Whitney, A12), figuras y tablas.
+- `experimentos/e1_...` a `e12_...`: un guion por experimento.
+- `experimentos/resultados/`: una fila por corrida (CSV), las curvas de convergencia (NPZ) y las configuraciones elegidas (JSON).
+- `experimentos/instancias/`: la instancia sintética de 15 órdenes y 6 máquinas, de dónde sale cada familia de la OR-Library y los óptimos publicados en JSPLIB (`jsplib_mejores_valores.csv`).
+- `experimentos/pruebas/`: las pruebas.
 
-Cada fila de los CSV de corridas lleva la instancia, el método, la cruza, los parámetros, la semilla, las evaluaciones y el mejor makespan (`mejor`).
+## Qué experimento es cuál
 
-## Reproducibilidad y límites
+Los resultados están en `experimentos/resultados/`.
 
-- Cada corrida es **determinista dada su semilla** (xoshiro256\*\*): las de evaluación usan las semillas 1000 a 1029, las del ajuste empiezan en 5000 y las de E6 en 7000. Esta versión del núcleo
-  añade el parámetro `bits` (8 por omisión) y reproduce exactamente los resultados de E2 y E3; hay una prueba que lo comprueba.
-- Los tiempos de las corridas en paralelo (7 procesos de una laptop) **no se usan**: el costo se midió aparte (E6) y E9 exige el equipo en reposo.
-- CP-SAT con varios hilos **no es determinista**: el óptimo y su makespan son estables, pero el calendario concreto que devuelve cambia entre ejecuciones; por eso el calendario óptimo de la figura del
-  horario se guardó en `E1_horario.json` y solo se recalcula con `--recalcular`.
-- Tiempos de referencia con 7 procesos en un portátil de 4 núcleos físicos: E2 ≈ 7 min, E3 ≈ 23 min, E4 ≈ 20 min, E5 ≈ 65 min, E7 ≈ 15 min, E8 ≈ 20 min, E10 ≈ 9 min, E12 ≈ 25 min (más las referencias de CP-SAT).
-- Versiones usadas: Python 3.14.6, NumPy 2.5.1, SciPy 1.18.0, pandas 3.0.3, OR-Tools 9.15, g++ 15.2 (`-O2`).
+- Referencias exactas (`referencias_exactas.py`): óptimo o mejor valor conocido de cada instancia con CP-SAT. Salida: `referencias*.csv`.
+- E1 (`e1_actividad.py`): la instancia preliminar con 100 corridas por método, y el horario propuesto (`analisis_jsp/horario.py`). Salida: `E1_actividad.csv`, `E1_curvas.npz`, `E1_horario.json`.
+- E2 (`e2_instancias.py`): las tres codificaciones y la búsqueda aleatoria en 25 instancias. Salida: `E2_instancias.csv`.
+- E3 (`e3_operadores.py`): ablación de operadores y código Gray, 12 variantes. Salida: `E3_operadores.csv`.
+- E4 (`e4_parametros.py`): rejilla de mutación por población en las instancias de ajuste y evaluación de la mejor configuración. Salida: `E4a_rejilla.csv`, `E4b_ajustado.csv`, `E4_mejor_config.json`. La primera rejilla, que luego se amplió porque lo mejor caía en el borde, está en `primera_rejilla/`.
+- E4c (`e4c_operador_ajustado.py`): un primer intento de cruzar operador y ajuste que resultó estar mal planteado (cada operador se evaluaba con parámetros ajustados para el otro). Se deja para que se vea; lo reemplaza E7. Salida: `E4c_operador_ajustado.csv`.
+- E5 (`e5_presupuesto.py`): hasta 300 000 evaluaciones y diversidad de la población. Salida: `E5_presupuesto.csv`, `E5_curvas.npz`.
+- E6 (`e6_costo.py`): tiempo por corrida en un solo proceso. Salida: `E6_costo.csv`.
+- E7 (`e7_ajuste_por_operador.py`, `e7b_ampliar_rejilla.py`): ajuste por separado de cada cruza de la binaria y de las llaves. Salida: `E7a_rejilla.csv`, `E7a_ampliacion.csv`, `E7b_ajustado.csv`, `E7_mejor_config.json` (los `..._rejilla_inicial` son anteriores a la ampliación).
+- E8 (`e8_bits.py`): la binaria con 2 a 16 bits por operación, y conteo de empates de prioridad (`analisis_jsp/empates.py`). Salida: `E8_bits.csv`, `E8b_bits_extra.csv`, `E8_empates.csv`.
+- E9 (`e9_exacto_tiempo_igual.py`): CP-SAT con el mismo tiempo que una corrida del algoritmo genético. Salida: `E9_exacto_tiempo_igual.csv`.
+- E10 (`e10_binaria_mejor_resolucion.py`): la binaria con 3 bits y su propio ajuste. Salida: `E10a_rejilla.csv`, `E10b_ajustado.csv`, `E10_mejor_config.json`.
+- E11 (`e11_reglas_despacho.py`): tres reglas de despacho sencillas en el mismo decodificador. Salida: `E11_reglas_despacho.csv`.
+- E12 (`correr_E12.sh`, `e12_otras_familias.py`): 22 instancias de abz, orb, swv e yn. Salida: `externas_cpsat.csv`, `E12a_otras_familias.csv`, `E12b_ajustado.csv`.
 
-## Procedencia de los datos
+## Cosas que conviene saber
 
-- **24 instancias** de la OR-Library (archivo `jobshop1.txt`, 82 instancias de la literatura): https://people.brunel.ac.uk/~mastjjb/jeb/orlib/files/jobshop1.txt (descripción en
-  https://people.brunel.ac.uk/~mastjjb/jeb/orlib/jobshopinfo.html). **No se redistribuyen**: `descargar_instancias.py` las descarga y comprueba la suma SHA-256
-  (`7f36d103332f94cfdeb76358e40927a57cfa7a426ebeaabd4de666350c69f028`). El detalle de qué familia proviene de qué trabajo está en `experimentos/instancias/orlib/LEEME.txt` y en el manuscrito.
-- **1 instancia sintética** (15 órdenes, 6 máquinas, 86 operaciones, tiempos enteros de 5 a 60 minutos, semilla 2026): `experimentos/instancias/actividad05.json`.
+- Cada corrida es determinista si se fija la semilla. Para evaluar se usan las semillas 1000 a 1029, para ajustar empiezan en 5000 y en E6 en 7000. El parámetro `bits` se añadió después, con 8 por omisión, y reproduce al dígito los resultados de E2 y E3 (hay una prueba para eso).
+- Las corridas se repartieron en 7 procesos de un portátil de 4 núcleos, así que sus tiempos no sirven; el costo se mide aparte en E6, y E9 necesita la máquina sin otra carga.
+- CP-SAT con varios hilos no es determinista: el makespan óptimo es el mismo pero el calendario que devuelve cambia. Por eso el calendario óptimo del horario se guardó en `E1_horario.json` y solo se recalcula con `--recalcular`.
+- Tiempos aproximados con ese portátil: E2 7 min, E3 23, E4 20, E5 65, E7 15, E8 20, E10 9 y E12 25 (sin contar las referencias de CP-SAT).
+- Versiones: Python 3.14.6, NumPy 2.5.1, SciPy 1.18.0, pandas 3.0.3, OR-Tools 9.15 y g++ 15.2 con `-O2`.
 
-## Uso de inteligencia artificial
+## Datos
 
-Parte del código, de los guiones de análisis y de la redacción se elaboró con ayuda de un asistente de inteligencia artificial, como se declara en el manuscrito; las personas autoras revisaron
-y aprobaron el diseño, los resultados y el texto.
+Las 24 instancias de la OR-Library vienen del archivo `jobshop1.txt` (https://people.brunel.ac.uk/~mastjjb/jeb/orlib/files/jobshop1.txt, descripción en https://people.brunel.ac.uk/~mastjjb/jeb/orlib/jobshopinfo.html). No se incluye en el repositorio: `descargar_instancias.py` lo baja y comprueba que su SHA-256 sea `7f36d103332f94cfdeb76358e40927a57cfa7a426ebeaabd4de666350c69f028`. La otra instancia es sintética (15 órdenes, 6 máquinas, 86 operaciones, tiempos enteros de 5 a 60 minutos, semilla 2026) y está en `experimentos/instancias/actividad05.json`.
+
+## Uso de IA
+
+Parte del código y del texto se hizo con ayuda de un asistente de IA, como se declara en el manuscrito. Los autores revisaron y aprobaron el diseño, los resultados y el texto.
 
 ## Licencia
 
-Se publicará con una licencia abierta al concluir la evaluación del manuscrito. Mientras tanto, este material se ofrece solo para su revisión.
+Todavía no tiene. Se le pondrá una licencia abierta cuando termine la revisión del artículo; mientras tanto es solo para que los revisores lo consulten.
