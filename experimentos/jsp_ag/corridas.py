@@ -25,6 +25,9 @@ def todas_las_instancias() -> dict:
 
 
 def problema(nombre: str) -> Problema:
+    if nombre not in _CACHE and nombre.startswith("bat_"):          # taller híbrido de la planta de baterías (E13)
+        from .hfs import ProblemaHFS, cargar_baterias
+        _CACHE[nombre] = ProblemaHFS(cargar_baterias()[nombre])
     if nombre not in _CACHE:
         if "inst" not in _CACHE:
             _CACHE["inst"] = todas_las_instancias()

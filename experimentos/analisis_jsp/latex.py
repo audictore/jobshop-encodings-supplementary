@@ -216,3 +216,22 @@ def tabla_e12() -> str:
 
 def generar_e12() -> None:
     escribir("e12", tabla_e12())
+
+
+def tabla_e13() -> str:
+    from . import e13
+    x = e13.resumen()
+    r, A, B, R = x["ref"], x["A"], x["B"], x["mejor_regla"]
+    orden = ["binaria", "permutacion", "llaves", "aleatoria"]
+    filas = []
+    for i in r.index:
+        g = i.replace("bat_", "")
+        filas.append(f"{g} ({int(r.loc[i, 'operaciones'])}) & {f(r.loc[i, 'cota_cap'] / 10)} & {f(r.loc[i, 'ref'] / 10)} & " + " & ".join(f(A.loc[i, m]) for m in orden) + f" & {f(R[i])} \\\\")
+    filas.append("\\midrule")
+    filas.append("Media, parámetros base & -- & -- & " + " & ".join(f(A[m].mean()) for m in orden) + f" & {f(R.mean())} \\\\")
+    filas.append("Media, ajustadas en E4 & -- & -- & " + " & ".join(f(B[m].mean()) if m in B.columns else "--" for m in orden) + " & -- \\\\")
+    return tabular(r"@{}l r r r r r r r@{}", "Instancia (operaciones) & \\shortstack[r]{Cota\\\\(h)} & \\shortstack[r]{Mejor\\\\hallado (h)} & " + " & ".join(f"\\shortstack[r]{{{CORTO[m]}}}" for m in orden) + " & \\shortstack[r]{Mejor\\\\regla}", filas)
+
+
+def generar_e13() -> None:
+    escribir("e13", tabla_e13())

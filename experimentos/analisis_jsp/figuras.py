@@ -70,7 +70,7 @@ def fig_e3(d: pd.DataFrame, ruta) -> bool:
 def fig_e4(ruta) -> bool:
     E.aplicar()
     g = e4.rejilla()
-    fig, ejes = E.plt.subplots(3, 1, figsize=(E.COL, 4.7), constrained_layout=True)
+    fig, ejes = E.plt.subplots(3, 1, figsize=(E.COL, 4.0), constrained_layout=True)
     escalas, pops = sorted(g["escala"].unique()), sorted(g["pop"].unique())
     vmax = float(g["rel"].max())
     cmap = __import__("matplotlib").colors.LinearSegmentedColormap.from_list("rampa", E.RAMPA_AZUL[:6])
@@ -97,7 +97,7 @@ def fig_e5(t, curvas: dict, divs: dict, ruta) -> bool:
     E.aplicar()
     ref = construir(guardar=False).set_index("instancia")["ref"]
     insts = sorted({k.split("|")[1] for k in curvas})
-    fig, ejes = E.plt.subplots(2, 1, figsize=(E.COL, 4.5), constrained_layout=True)
+    fig, ejes = E.plt.subplots(2, 1, figsize=(E.COL, 3.9), constrained_layout=True)
     g_max = len(next(iter(curvas.values()))) - 1
     puntos = np.unique(np.round(np.geomspace(1, g_max, 120)).astype(int))
     x = e5.evals(g_max)[puntos]

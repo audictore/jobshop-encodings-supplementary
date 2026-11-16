@@ -11,15 +11,15 @@ python3 descargar_instancias.py    # baja jobshop1.txt de la OR-Library y compru
 python3 -m pytest -q pruebas
 ```
 
-El núcleo en C++ se compila solo la primera vez. Sin `jobshop1.txt` algunas pruebas se saltan. Con los resultados que vienen en `experimentos/resultados/` pasan las 51 pruebas en unos diez segundos.
+El núcleo en C++ se compila solo la primera vez. Sin `jobshop1.txt` algunas pruebas se saltan. Con los resultados que vienen en `experimentos/resultados/` pasan las 57 pruebas en unos diez segundos.
 
 Las tablas y figuras del artículo se rehacen a partir de los CSV con las funciones de `analisis_jsp/latex.py` (`generar_e1_e3`, `generar_e4`, `generar_e5_e6`, `generar_e7_e9`, `generar_e12`) y de `analisis_jsp/figuras.py`. El horario propuesto sale de `python3 -m analisis_jsp.horario`.
 
 ## Qué hay en cada carpeta
 
-- `experimentos/jsp_ag/`: el núcleo en C++ (decodificador de Giffler y Thompson, las tres codificaciones y sus operadores, búsqueda aleatoria) con su envoltura en Python, el lector de instancias, el modelo de CP-SAT y el reparto de corridas en procesos.
+- `experimentos/jsp_ag/`: el núcleo en C++ (decodificador de Giffler y Thompson, las tres codificaciones y sus operadores, búsqueda aleatoria) con su envoltura en Python, el lector de instancias, el modelo de CP-SAT y el reparto de corridas en procesos. El taller híbrido de las baterías está en `hfs.py` y `exacto_hfs.py` (y en `nucleo.cpp`).
 - `experimentos/analisis_jsp/`: referencias, estadística (Friedman, Wilcoxon, Holm, Mann-Whitney, A12), figuras y tablas.
-- `experimentos/e1_...` a `e12_...`: un guion por experimento.
+- `experimentos/e1_...` a `e13_...`: un guion por experimento.
 - `experimentos/resultados/`: una fila por corrida (CSV), las curvas de convergencia (NPZ) y las configuraciones elegidas (JSON).
 - `experimentos/instancias/`: la instancia sintética de 15 órdenes y 6 máquinas, de dónde sale cada familia de la OR-Library y los óptimos publicados en JSPLIB (`jsplib_mejores_valores.csv`).
 - `experimentos/pruebas/`: las pruebas.
@@ -42,6 +42,7 @@ Los resultados están en `experimentos/resultados/`.
 - E10 (`e10_binaria_mejor_resolucion.py`): la binaria con 3 bits y su propio ajuste. Salida: `E10a_rejilla.csv`, `E10b_ajustado.csv`, `E10_mejor_config.json`.
 - E11 (`e11_reglas_despacho.py`): tres reglas de despacho sencillas en el mismo decodificador. Salida: `E11_reglas_despacho.csv`.
 - E12 (`correr_E12.sh`, `e12_otras_familias.py`): 22 instancias de abz, orb, swv e yn. Salida: `externas_cpsat.csv`, `E12a_otras_familias.csv`, `E12b_ajustado.csv`.
+- E13 (`referencias_baterias.py`, `e13_baterias.py`): el caso de la planta de baterías (taller híbrido con máquinas paralelas, re-entradas y cambios entre familias; decodificador en `jsp_ag/hfs.py` y `nucleo.cpp`, modelo de CP-SAT en `jsp_ag/exacto_hfs.py`). Salida: `baterias_cpsat.csv`, `E13a_baterias.csv`, `E13b_ajustado.csv`, `E13c_reglas.csv`.
 
 ## Cosas que conviene saber
 
@@ -54,6 +55,8 @@ Los resultados están en `experimentos/resultados/`.
 ## Datos
 
 Las 24 instancias de la OR-Library vienen del archivo `jobshop1.txt` (https://people.brunel.ac.uk/~mastjjb/jeb/orlib/files/jobshop1.txt, descripción en https://people.brunel.ac.uk/~mastjjb/jeb/orlib/jobshopinfo.html). No se incluye en el repositorio: `descargar_instancias.py` lo baja y comprueba que su SHA-256 sea `7f36d103332f94cfdeb76358e40927a57cfa7a426ebeaabd4de666350c69f028`. La otra instancia es sintética (15 órdenes, 6 máquinas, 86 operaciones, tiempos enteros de 5 a 60 minutos, semilla 2026) y está en `experimentos/instancias/actividad05.json`.
+
+Para el caso de las baterías se usó el conjunto de Ma, Lin, Jiang, Qi, Wang y Zhang (Mendeley Data, V1, 2026, doi:10.17632/x9sssz7jy4.1, licencia CC BY 4.0). El original es un Word; sus tablas están transcritas en `experimentos/instancias/baterias_parametros.json` (con `extraer_baterias.py`, que lo saca del archivo original, que no se incluye).
 
 ## Uso de IA
 

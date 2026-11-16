@@ -1,0 +1,804 @@
+{
+ "fuente": {
+  "titulo": "Dataset of Standard Re-entrant Hybrid Flow Shop Scheduling for New-energy Battery Substrate Manufacturing",
+  "autores": "Lin Ma, Jinhuang Lin, Li Jiang, Wenbo Qi, Xingcan Wang, Yifan Zhang",
+  "doi": "10.17632/x9sssz7jy4.1",
+  "licencia": "CC BY 4.0",
+  "archivo": "Standard Test Instances.docx",
+  "sha256": "f818289dd22afa4ebff6dc5d2d1b574b6ed3312120c2693843c2a445fea574ea"
+ },
+ "unidad": "horas",
+ "etapas": [
+  {
+   "j": 1,
+   "nombre": "Melting",
+   "maquinas": 2,
+   "p": 5.0,
+   "s": 0.3
+  },
+  {
+   "j": 2,
+   "nombre": "Cast-rolling",
+   "maquinas": 2,
+   "p": 4.2,
+   "s": 0.4
+  },
+  {
+   "j": 3,
+   "nombre": "Cold rolling",
+   "maquinas": 2,
+   "p": 2.8,
+   "s": 0.5
+  },
+  {
+   "j": 4,
+   "nombre": "Annealing (bottleneck)",
+   "maquinas": 3,
+   "p": null,
+   "s": 0.6
+  },
+  {
+   "j": 5,
+   "nombre": "Slitting",
+   "maquinas": 1,
+   "p": 2.2,
+   "s": 0.3
+  },
+  {
+   "j": 6,
+   "nombre": "Polishing",
+   "maquinas": 2,
+   "p": 1.8,
+   "s": 0.4
+  },
+  {
+   "j": 7,
+   "nombre": "Packaging",
+   "maquinas": 1,
+   "p": 1.2,
+   "s": 0.2
+  }
+ ],
+ "recocido_por_familia": {
+  "F1": 7.6,
+  "F2": 8.0,
+  "F3": 8.4,
+  "F4": 8.8
+ },
+ "rutas": {
+  "PATH1": {
+   "familia": "F1",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     6,
+     1
+    ],
+    [
+     7,
+     1
+    ]
+   ]
+  },
+  "PATH2": {
+   "familia": "F1",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     6,
+     1
+    ],
+    [
+     7,
+     1
+    ]
+   ]
+  },
+  "PATH3": {
+   "familia": "F2",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     7,
+     2
+    ]
+   ]
+  },
+  "PATH4": {
+   "familia": "F2",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     7,
+     2
+    ]
+   ]
+  },
+  "PATH5": {
+   "familia": "F2",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     7,
+     2
+    ]
+   ]
+  },
+  "PATH6": {
+   "familia": "F3",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     5,
+     3
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     7,
+     3
+    ]
+   ]
+  },
+  "PATH7": {
+   "familia": "F3",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     7,
+     3
+    ]
+   ]
+  },
+  "PATH8": {
+   "familia": "F3",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     5,
+     3
+    ],
+    [
+     7,
+     3
+    ]
+   ]
+  },
+  "PATH9": {
+   "familia": "F3",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     7,
+     3
+    ]
+   ]
+  },
+  "PATH10": {
+   "familia": "F4",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     7,
+     4
+    ]
+   ]
+  },
+  "PATH11": {
+   "familia": "F4",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     7,
+     4
+    ]
+   ]
+  },
+  "PATH12": {
+   "familia": "F4",
+   "ops": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     7,
+     4
+    ]
+   ]
+  }
+ },
+ "cambio_recocido": [
+  [
+   0.5,
+   2.0,
+   2.5,
+   3.0
+  ],
+  [
+   2.0,
+   0.5,
+   1.5,
+   2.5
+  ],
+  [
+   2.5,
+   1.5,
+   0.5,
+   2.0
+  ],
+  [
+   3.0,
+   2.5,
+   2.0,
+   0.5
+  ]
+ ],
+ "G1_trabajos": [
+  {
+   "id": "B1",
+   "familia": "F1",
+   "ruta": "PATH1",
+   "entrega": 65
+  },
+  {
+   "id": "B2",
+   "familia": "F1",
+   "ruta": "PATH2",
+   "entrega": 58
+  },
+  {
+   "id": "B3",
+   "familia": "F2",
+   "ruta": "PATH3",
+   "entrega": 85
+  },
+  {
+   "id": "B4",
+   "familia": "F2",
+   "ruta": "PATH4",
+   "entrega": 80
+  },
+  {
+   "id": "B5",
+   "familia": "F2",
+   "ruta": "PATH5",
+   "entrega": 82
+  },
+  {
+   "id": "B6",
+   "familia": "F3",
+   "ruta": "PATH6",
+   "entrega": 110
+  },
+  {
+   "id": "B7",
+   "familia": "F3",
+   "ruta": "PATH7",
+   "entrega": 105
+  },
+  {
+   "id": "B8",
+   "familia": "F3",
+   "ruta": "PATH8",
+   "entrega": 108
+  },
+  {
+   "id": "B9",
+   "familia": "F4",
+   "ruta": "PATH10",
+   "entrega": 135
+  },
+  {
+   "id": "B10",
+   "familia": "F4",
+   "ruta": "PATH12",
+   "entrega": 128
+  }
+ ],
+ "grupos": {
+  "G1": {
+   "trabajos": 10,
+   "familias": [
+    2,
+    3,
+    3,
+    2
+   ],
+   "entrega": [
+    58,
+    135
+   ],
+   "ops_estimadas": 85
+  },
+  "G2": {
+   "trabajos": 20,
+   "familias": [
+    3,
+    6,
+    7,
+    4
+   ],
+   "entrega": [
+    55,
+    140
+   ],
+   "ops_estimadas": 172
+  },
+  "G3": {
+   "trabajos": 30,
+   "familias": [
+    5,
+    9,
+    10,
+    6
+   ],
+   "entrega": [
+    50,
+    150
+   ],
+   "ops_estimadas": 258
+  },
+  "G4": {
+   "trabajos": 40,
+   "familias": [
+    6,
+    12,
+    14,
+    8
+   ],
+   "entrega": [
+    52,
+    155
+   ],
+   "ops_estimadas": 344
+  },
+  "G5": {
+   "trabajos": 50,
+   "familias": [
+    8,
+    15,
+    17,
+    10
+   ],
+   "entrega": [
+    50,
+    160
+   ],
+   "ops_estimadas": 430
+  }
+ },
+ "conteo_rutas": {
+  "G2": {
+   "PATH1": 1,
+   "PATH2": 2,
+   "PATH3": 2,
+   "PATH4": 2,
+   "PATH5": 2,
+   "PATH6": 2,
+   "PATH7": 2,
+   "PATH8": 2,
+   "PATH9": 1,
+   "PATH10": 2,
+   "PATH11": 1,
+   "PATH12": 1
+  },
+  "G3": {
+   "PATH1": 2,
+   "PATH2": 3,
+   "PATH3": 3,
+   "PATH4": 3,
+   "PATH5": 3,
+   "PATH6": 3,
+   "PATH7": 2,
+   "PATH8": 3,
+   "PATH9": 2,
+   "PATH10": 2,
+   "PATH11": 2,
+   "PATH12": 2
+  },
+  "G4": {
+   "PATH1": 3,
+   "PATH2": 3,
+   "PATH3": 4,
+   "PATH4": 4,
+   "PATH5": 4,
+   "PATH6": 4,
+   "PATH7": 3,
+   "PATH8": 4,
+   "PATH9": 3,
+   "PATH10": 3,
+   "PATH11": 2,
+   "PATH12": 3
+  },
+  "G5": {
+   "PATH1": 4,
+   "PATH2": 4,
+   "PATH3": 5,
+   "PATH4": 5,
+   "PATH5": 5,
+   "PATH6": 5,
+   "PATH7": 4,
+   "PATH8": 4,
+   "PATH9": 4,
+   "PATH10": 3,
+   "PATH11": 3,
+   "PATH12": 4
+  }
+ }
+}

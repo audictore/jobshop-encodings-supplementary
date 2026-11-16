@@ -1,0 +1,6 @@
+instancia,ordenes,operaciones,estado,makespan,cota,segundos,limite_s,hilos,semilla
+bat_G1,10,93,FEASIBLE,966,679,300.03,300.0,8,1
+bat_G2,20,189,FEASIBLE,1859,694,300.05,300.0,8,1
+bat_G3,30,280,FEASIBLE,2887,734,300.22,300.0,8,1
+bat_G4,40,376,FEASIBLE,6693,819,300.2,300.0,8,1
+bat_G5,50,467,FEASIBLE,10391,935,300.44,300.0,8,1

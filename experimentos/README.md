@@ -10,7 +10,7 @@ python3 descargar_instancias.py    # única descarga: jobshop1.txt de la OR-Libr
 python3 -m pytest -q -p no:cacheprovider pruebas
 ```
 
-El núcleo se compila solo la primera vez (queda en `jsp_ag/build/`). Hay 51 pruebas. Entre otras cosas comprueban que el decodificador de C++ da lo mismo que una versión independiente en Python (makespan y comienzo de cada operación), que los calendarios respetan precedencias y no se solapan, que las cruzas de permutación conservan el multiconjunto, que el presupuesto es `pop + gens * (pop - elite)` y que una misma semilla da el mismo resultado. Las que necesitan `jobshop1.txt` o los resultados se saltan si faltan.
+El núcleo se compila solo la primera vez (queda en `jsp_ag/build/`). Hay 57 pruebas. Entre otras cosas comprueban que el decodificador de C++ da lo mismo que una versión independiente en Python (makespan y comienzo de cada operación), que los calendarios respetan precedencias y no se solapan, que las cruzas de permutación conservan el multiconjunto, que el presupuesto es `pop + gens * (pop - elite)` y que una misma semilla da el mismo resultado. Las que necesitan `jobshop1.txt` o los resultados se saltan si faltan.
 
 ## Correr los experimentos
 
@@ -29,6 +29,8 @@ python3 e8_bits.py                        # bits por operación; con --bits 2 3 
 python3 e9_exacto_tiempo_igual.py         # CP-SAT a igual tiempo (máquina sin otra carga)
 python3 e10_binaria_mejor_resolucion.py   # binaria con 3 bits y su ajuste
 python3 e11_reglas_despacho.py            # reglas de despacho
+python3 referencias_baterias.py           # CP-SAT en las 5 instancias de la planta de baterías (unos 25 min)
+python3 e13_baterias.py                   # el estudio en esas 5 instancias
 bash correr_E12.sh                        # otras 22 instancias (refs de CP-SAT, luego el AG)
 ```
 

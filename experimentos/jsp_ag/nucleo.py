@@ -43,6 +43,12 @@ def _cargar():
         _lib.jsp_decodificar.argtypes = [ctypes.c_int, ctypes.c_int, pi, pi, pi, pd, pi]
         _lib.jsp_verificar_cruza_permutacion.restype = ctypes.c_int
         _lib.jsp_verificar_cruza_permutacion.argtypes = [ctypes.c_int, ctypes.c_int, pi, pi, pi, ctypes.c_int, ctypes.c_int, ctypes.c_uint64]
+        _lib.jsp_ejecutar_hfs.restype = ctypes.c_int
+        _lib.jsp_ejecutar_hfs.argtypes = [ctypes.c_int, ctypes.c_int, pi, pi, pi, pi, pi, pi, pi, ctypes.c_int, ctypes.c_int,
+                                          ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+                                          ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_uint64, pi, pd, pd, pl]
+        _lib.jsp_decodificar_hfs.restype = ctypes.c_int
+        _lib.jsp_decodificar_hfs.argtypes = [ctypes.c_int, ctypes.c_int, pi, pi, pi, pi, pi, pi, pi, ctypes.c_int, ctypes.c_int, pd, pi, pi]
         _lib.jsp_ejecutar.restype = ctypes.c_int
         _lib.jsp_ejecutar.argtypes = [ctypes.c_int, ctypes.c_int, pi, pi, pi, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
                                       ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_double,

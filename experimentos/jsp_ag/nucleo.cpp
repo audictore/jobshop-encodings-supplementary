@@ -39,6 +39,10 @@ struct Inst {
     int n = 0, m = 0, N = 0;
     std::vector<int> len, off, mach, pt;   // por orden: longitud y desplazamiento; por operación global: máquina y tiempo
     std::vector<int> job_of;               // orden de cada operación global
+    // taller híbrido con máquinas paralelas, re-entradas y cambios entre familias (caso de la planta de baterías)
+    bool hfs = false;
+    int nst = 0, nf = 0, seq_stage = -1;   // etapas, familias y etapa con cambio dependiente de la secuencia
+    std::vector<int> stage, setup, fam, nm, moff, su;   // etapa y preparación por operación; familia por orden; máquinas y desplazamiento por etapa; matriz de cambio
 };
 
 Inst make_inst(int n, int m, const int* len, const int* mach, const int* pt) {
@@ -52,13 +56,62 @@ Inst make_inst(int n, int m, const int* len, const int* mach, const int* pt) {
     return I;
 }
 
+Inst make_inst_hfs(int n, int nst, const int* len, const int* stage, const int* ptime, const int* setup, const int* fam,
+                   const int* nm, const int* su, int nf, int seq_stage) {
+    Inst I; I.hfs = true; I.n = n; I.nst = nst; I.nf = nf; I.seq_stage = seq_stage;
+    I.len.assign(len, len + n); I.off.assign(n + 1, 0);
+    for (int j = 0; j < n; ++j) I.off[j + 1] = I.off[j] + len[j];
+    I.N = I.off[n];
+    I.pt.assign(ptime, ptime + I.N); I.stage.assign(stage, stage + I.N); I.setup.assign(setup, setup + I.N);
+    I.fam.assign(fam, fam + n); I.nm.assign(nm, nm + nst);
+    I.moff.assign(nst + 1, 0);
+    for (int s = 0; s < nst; ++s) I.moff[s + 1] = I.moff[s] + nm[s];
+    I.m = I.moff[nst];
+    I.su.assign(su, su + nf * nf);
+    I.job_of.resize(I.N);
+    for (int j = 0; j < n; ++j) for (int k = 0; k < len[j]; ++k) I.job_of[I.off[j] + k] = j;
+    return I;
+}
+
 // --- decodificador (Giffler-Thompson)
 // prio[o]: prioridad de la operación global o (menor = se atiende antes; empates por el menor índice).
 struct Decoder {
     const Inst& I;
-    std::vector<int> nxt, jready, mfree;
-    explicit Decoder(const Inst& in) : I(in), nxt(in.n), jready(in.n), mfree(in.m) {}
-    int run(const double* prio, int* start_out /*puede ser nullptr*/) {
+    std::vector<int> nxt, jready, mfree, mlast;
+    explicit Decoder(const Inst& in) : I(in), nxt(in.n), jready(in.n), mfree(in.m), mlast(in.m) {}
+    int run(const double* prio, int* start_out /*puede ser nullptr*/) { return I.hfs ? run_hfs(prio, start_out, nullptr) : run_js(prio, start_out); }
+
+    // Taller híbrido: se programa la operación pendiente de menor prioridad y se asigna a la máquina de su etapa donde termina antes. El bloque de
+    // la operación (preparación + proceso) empieza cuando la orden y la máquina están libres. En la etapa con cambio dependiente de la secuencia, la
+    // preparación es la de la matriz según la familia anterior de la máquina; si la máquina no ha procesado nada, la fija de la operación.
+    int run_hfs(const double* prio, int* start_out, int* mach_out) {
+        std::fill(nxt.begin(), nxt.end(), 0); std::fill(jready.begin(), jready.end(), 0);
+        std::fill(mfree.begin(), mfree.end(), 0); std::fill(mlast.begin(), mlast.end(), -1);
+        int mk = 0;
+        for (int step = 0; step < I.N; ++step) {
+            int chosen = -1; double bp = 0;
+            for (int j = 0; j < I.n; ++j) {
+                if (nxt[j] >= I.len[j]) continue;
+                int o = I.off[j] + nxt[j];
+                if (chosen < 0 || prio[o] < bp) { chosen = o; bp = prio[o]; }
+            }
+            int j = I.job_of[chosen], st = I.stage[chosen], f = I.fam[j];
+            int bm = -1, bs = 0, be = INT32_MAX, bset = 0;
+            for (int mi = 0; mi < I.nm[st]; ++mi) {
+                int m = I.moff[st] + mi;
+                int s = (st == I.seq_stage && mlast[m] >= 0) ? I.su[mlast[m] * I.nf + f] : I.setup[chosen];
+                int start = std::max(jready[j], mfree[m]), end = start + s + I.pt[chosen];
+                if (end < be) { be = end; bm = m; bs = start; bset = s; }
+            }
+            if (start_out) start_out[chosen] = bs + bset;          // inicio del proceso, después de la preparación
+            if (mach_out) mach_out[chosen] = bm;
+            jready[j] = be; mfree[bm] = be; mlast[bm] = f; ++nxt[j];
+            if (be > mk) mk = be;
+        }
+        return mk;
+    }
+
+    int run_js(const double* prio, int* start_out) {
         std::fill(nxt.begin(), nxt.end(), 0); std::fill(jready.begin(), jready.end(), 0); std::fill(mfree.begin(), mfree.end(), 0);
         int mk = 0;
         for (int step = 0; step < I.N; ++step) {
@@ -231,24 +284,11 @@ double diversidad(const Inst& I, const std::vector<std::vector<double>>& prios, 
     return tot / pairs;
 }
 
-}  // namespace
-
-// --- API en C
-extern "C" {
-
-// Decodifica un vector de prioridades: devuelve el makespan y, si start_out no es NULL, el inicio de cada operación.
-int jsp_decodificar(int n, int m, const int* len, const int* mach, const int* pt, const double* prio, int* start_out) {
-    Inst I = make_inst(n, m, len, mach, pt); Decoder D(I); return D.run(prio, start_out);
-}
-
-// Una corrida completa. enc: 0 binaria, 1 permutación con repetición, 2 llaves, 3 búsqueda aleatoria (llaves uniformes).
-// out_best[0..gens] recibe el mejor makespan acumulado (población inicial y cada generación), out_div la diversidad (si no es
-// NULL) y out_prio las prioridades del mejor individuo.
-int jsp_ejecutar(int n, int m, const int* len, const int* mach, const int* pt,
-                 int enc, int cx, int gray, int bits, int pop, int gens, int elite, int tourn,
+// Una corrida completa sobre una instancia ya construida (la usan jsp_ejecutar y jsp_ejecutar_hfs).
+int ejecutar_con(const Inst& I, int enc, int cx, int gray, int bits, int pop, int gens, int elite, int tourn,
                  double pc, double pm_scale, double sigma, uint64_t seed,
                  int* out_best, double* out_div, double* out_prio, long long* out_evals) {
-    Inst I = make_inst(n, m, len, mach, pt); Decoder D(I); Rng r(seed);
+    Decoder D(I); Rng r(seed);
     Params P{enc == RAND ? KEYS : enc, cx, gray, pop, gens, elite, tourn, bits, pc, pm_scale, sigma};
     std::vector<Ind> cur(pop), nxt; std::vector<double> prio; std::vector<int> cnt;
     long long evals = 0; int best = INT32_MAX; std::vector<double> best_prio(I.N);
@@ -295,6 +335,44 @@ int jsp_ejecutar(int n, int m, const int* len, const int* mach, const int* pt,
     return best;
 }
 
+
+}  // namespace
+
+// --- API en C
+extern "C" {
+
+// Decodifica un vector de prioridades: devuelve el makespan y, si start_out no es NULL, el inicio de cada operación.
+int jsp_decodificar(int n, int m, const int* len, const int* mach, const int* pt, const double* prio, int* start_out) {
+    Inst I = make_inst(n, m, len, mach, pt); Decoder D(I); return D.run(prio, start_out);
+}
+
+// Una corrida completa. enc: 0 binaria, 1 permutación con repetición, 2 llaves, 3 búsqueda aleatoria (llaves uniformes).
+// out_best[0..gens] recibe el mejor makespan acumulado (población inicial y cada generación), out_div la diversidad (si no es
+// NULL) y out_prio las prioridades del mejor individuo.
+int jsp_ejecutar(int n, int m, const int* len, const int* mach, const int* pt,
+                 int enc, int cx, int gray, int bits, int pop, int gens, int elite, int tourn,
+                 double pc, double pm_scale, double sigma, uint64_t seed,
+                 int* out_best, double* out_div, double* out_prio, long long* out_evals) {
+    Inst I = make_inst(n, m, len, mach, pt);
+    return ejecutar_con(I, enc, cx, gray, bits, pop, gens, elite, tourn, pc, pm_scale, sigma, seed, out_best, out_div, out_prio, out_evals);
+}
+
+// Lo mismo para el taller híbrido (baterías): etapa, tiempo y preparación por operación; familia por orden; máquinas por etapa y matriz de cambio.
+int jsp_ejecutar_hfs(int n, int nst, const int* len, const int* stage, const int* ptime, const int* setup, const int* fam, const int* nm,
+                     const int* su, int nf, int seq_stage,
+                     int enc, int cx, int gray, int bits, int pop, int gens, int elite, int tourn,
+                     double pc, double pm_scale, double sigma, uint64_t seed,
+                     int* out_best, double* out_div, double* out_prio, long long* out_evals) {
+    Inst I = make_inst_hfs(n, nst, len, stage, ptime, setup, fam, nm, su, nf, seq_stage);
+    return ejecutar_con(I, enc, cx, gray, bits, pop, gens, elite, tourn, pc, pm_scale, sigma, seed, out_best, out_div, out_prio, out_evals);
+}
+
+// Decodifica un vector de prioridades del taller híbrido; start_out y mach_out (opcionales) reciben el inicio del proceso y la máquina de cada operación.
+int jsp_decodificar_hfs(int n, int nst, const int* len, const int* stage, const int* ptime, const int* setup, const int* fam, const int* nm,
+                        const int* su, int nf, int seq_stage, const double* prio, int* start_out, int* mach_out) {
+    Inst I = make_inst_hfs(n, nst, len, stage, ptime, setup, fam, nm, su, nf, seq_stage); Decoder D(I);
+    return D.run_hfs(prio, start_out, mach_out);
+}
 
 // Cuenta los hijos (de 2*pruebas) de las cruzas de permutación que no conservan el multiconjunto de órdenes.
 int jsp_verificar_cruza_permutacion(int n, int m, const int* len, const int* mach, const int* pt, int cx, int pruebas, uint64_t seed) {

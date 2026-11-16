@@ -1,0 +1,16 @@
+instancia,regla,makespan
+bat_G1,SPT,1366
+bat_G1,MWKR,1124
+bat_G1,MOPNR,1083
+bat_G2,SPT,2666
+bat_G2,MWKR,2090
+bat_G2,MOPNR,1973
+bat_G3,SPT,3630
+bat_G3,MWKR,2979
+bat_G3,MOPNR,2775
+bat_G4,SPT,4789
+bat_G4,MWKR,3922
+bat_G4,MOPNR,3564
+bat_G5,SPT,5638
+bat_G5,MWKR,4730
+bat_G5,MOPNR,4333
