@@ -1,0 +1,11 @@
+Instancias de taller de rutas variables (job-shop) de la OR-Library
+------------------------------------------------------------------
+Archivo:   jobshop1.txt (122 472 bytes; 82 instancias)
+Fuente:    http://people.brunel.ac.uk/~mastjjb/jeb/orlib/files/jobshop1.txt (redirige a https)
+Descargado el 15-nov-2026, con permiso expreso del usuario (un solo archivo de texto de dominio abierto; no se envió ningún dato personal).
+SHA-256:   7f36d103332f94cfdeb76358e40927a57cfa7a426ebeaabd4de666350c69f028
+Colección contribuida a la OR-Library por D. C. Mattfeld y R. J. M. Vaessens; el propio archivo lista el origen de cada familia
+(abz: Adams, Balas y Zawack, 1988; ft: Fisher y Thompson, 1963; la: Lawrence, 1984; orb: Applegate y Cook, 1991;
+swv: Storer, Wu y Vaccari, 1992; yn: Yamada y Nakano, 1992). Las referencias se verifican por separado antes de citarlas.
+Notas: las máquinas se numeran desde 0. La instancia orb07 de este archivo trae una operación con tiempo 0; no se usa.
+Control del lector: ft06, la01–la05, ft10 y abz5 se resolvieron con CP-SAT hasta el óptimo y coinciden con los valores conocidos.

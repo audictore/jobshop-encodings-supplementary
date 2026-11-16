@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+jsp_ag/build/
+experimentos/jsp_ag/build/
+experimentos/instancias/orlib/jobshop1.txt

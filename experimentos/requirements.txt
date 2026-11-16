@@ -1,0 +1,7 @@
+# Sin versiones fijas a propósito: las usadas en el estudio están en el manuscrito (Python 3.14.6, NumPy 2.5.1, SciPy 1.18.0, pandas 3.0.3, OR-Tools 9.15).
+numpy
+scipy
+pandas
+matplotlib
+ortools
+pytest

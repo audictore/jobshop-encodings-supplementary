@@ -1,0 +1,4 @@
+Optimos y cotas listados en JSPLIB (https://github.com/tamy0612/JSPLIB, archivo instances.json), leidos el 15-nov-2026 para las instancias del estudio y
+de la validacion externa (E12). El repositorio no dice de donde salen esos valores ni tiene licencia declarada: se usan solo como valor de referencia y como
+comprobacion cruzada de los optimos que demuestra CP-SAT (coinciden todos los que se pudieron comparar). `optimo` vacio = sin optimo conocido; entonces se da la
+mejor cota superior y la cota inferior publicadas.

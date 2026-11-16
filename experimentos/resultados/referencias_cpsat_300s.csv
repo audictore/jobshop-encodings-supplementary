@@ -1,0 +1,6 @@
+instancia,ordenes,maquinas,operaciones,cota_trivial,estado,makespan,cota,segundos,limite_s,hilos,semilla
+la21,15,10,150,935,OPTIMAL,1046,1046,88.63,300.0,8,1
+la27,20,10,200,1188,OPTIMAL,1235,1235,51.06,300.0,8,1
+la38,15,15,225,943,FEASIBLE,1196,1180,300.03,300.0,8,1
+swv06,20,15,300,1229,FEASIBLE,1720,1595,300.04,300.0,8,1
+yn1,20,20,400,694,FEASIBLE,905,827,300.02,300.0,8,1
