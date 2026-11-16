@@ -42,7 +42,7 @@ Los resultados están en `experimentos/resultados/`.
 - E10 (`e10_binaria_mejor_resolucion.py`): la binaria con 3 bits y su propio ajuste. Salida: `E10a_rejilla.csv`, `E10b_ajustado.csv`, `E10_mejor_config.json`.
 - E11 (`e11_reglas_despacho.py`): tres reglas de despacho sencillas en el mismo decodificador. Salida: `E11_reglas_despacho.csv`.
 - E12 (`correr_E12.sh`, `e12_otras_familias.py`): 22 instancias de abz, orb, swv e yn. Salida: `externas_cpsat.csv`, `E12a_otras_familias.csv`, `E12b_ajustado.csv`.
-- E13 (`referencias_baterias.py`, `e13_baterias.py`): el caso de la planta de baterías (taller híbrido con máquinas paralelas, re-entradas y cambios entre familias; decodificador en `jsp_ag/hfs.py` y `nucleo.cpp`, modelo de CP-SAT en `jsp_ag/exacto_hfs.py`). Salida: `baterias_cpsat.csv`, `E13a_baterias.csv`, `E13b_ajustado.csv`, `E13c_reglas.csv`.
+- E13 (`referencias_baterias.py`, `e13_baterias.py`): instancias basadas en una planta de baterías (taller híbrido con máquinas paralelas, re-entradas y cambios entre familias; decodificador en `jsp_ag/hfs.py` y `nucleo.cpp`, modelo de CP-SAT en `jsp_ag/exacto_hfs.py`). Salida: `baterias_cpsat.csv`, `E13a_baterias.csv`, `E13b_ajustado.csv`, `E13c_reglas.csv`.
 
 ## Cosas que conviene saber
 
